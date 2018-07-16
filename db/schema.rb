@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2018_07_16_185931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conversions", force: :cascade do |t|
+    t.string "ynab_budget_id"
+    t.string "ynab_account_id"
+    t.string "cached_ynab_account_name"
+    t.string "cached_ynab_budget_name"
+    t.string "from_currency"
+    t.string "to_currency"
+    t.datetime "synced_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
