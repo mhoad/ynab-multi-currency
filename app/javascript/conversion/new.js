@@ -1,23 +1,34 @@
 import 'bootstrap-datepicker'
+import TurbolinksAdapter from 'vue-turbolinks';
+import Vue from 'vue/dist/vue.esm'
+
+Vue.use(TurbolinksAdapter)
+
 
 document.addEventListener("turbolinks:load", function() {
-  function setYnabHiddenFields() {
-    var budgetId = $("#conversion_ynab_account_id").find(":selected").data("budget-id");
-    var budgetName = $("#conversion_ynab_account_id").find(":selected").data("budget-name");
-    var accountName = $("#conversion_ynab_account_id").find(":selected").data("account-name");
-    var toCurrency = $("#conversion_ynab_account_id").find(":selected").data("to-currency");
+  const app = new Vue({
+    el: '#new_conversion',
+    data: {
+      selected: ''
+    },
+    methods: {
+      setYnabHiddenFields: function() {
+        var account = this.$refs[this.selected]
 
-    $("#conversion_ynab_budget_id").val(budgetId);
-    $("#conversion_cached_ynab_account_name").val(budgetName);
-    $("#conversion_cached_ynab_budget_name").val(accountName);
-    $("#conversion_to_currency").val(toCurrency);
-  }
-
-  setYnabHiddenFields();
-
-  $("#conversion_ynab_account_id").change(function() {
-    setYnabHiddenFields();
-  });
+        if (account) {
+          document.getElementById("conversion_to_currency").value = account.dataset.toCurrency
+          document.getElementById("conversion_ynab_budget_id").value = account.dataset.budgetId
+          document.getElementById("conversion_cached_ynab_budget_name").value = account.dataset.budgetName
+          document.getElementById("conversion_cached_ynab_account_name").value = account.dataset.accountName
+        } else {
+          document.getElementById("conversion_to_currency").value = ""
+          document.getElementById("conversion_ynab_budget_id").value = ""
+          document.getElementById("conversion_cached_ynab_budget_name").value = ""
+          document.getElementById("conversion_cached_ynab_account_name").value = ""
+        }
+      }
+    }
+  })
 
   $('.datepicker').datepicker({
     format: "dd/mm/yyyy",

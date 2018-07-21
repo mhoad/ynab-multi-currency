@@ -2,8 +2,8 @@
 
 <%= form_for @conversion, url: { action: "create" } do |f| %>
   <div class="form-group">
-    <%= f.label :ynab_account_id, "Pick a Ynab account" %>
-    <%= f.select :ynab_account_id, nil, {}, { class: "form-control" } do %>
+    <%= f.label :ynab_account_id, "Ynab account" %>
+    <%= f.select :ynab_account_id, nil, { prompt: "Pick a YNAB account to convert" }, { class: "form-control", "v-on:change" => "setYnabHiddenFields", "v-model" => "selected" } do %>
       <% @ynab_budgets.each do |budget| %>
         <%= content_tag :optgroup, label: budget.name do %>
           <% budget.accounts.each do |account| %>
@@ -14,7 +14,8 @@
                   budget_id: budget.id,
                   account_name: account.name,
                   budget_name: budget.name,
-                  to_currency: budget.currency_code } %>
+                  to_currency: budget.currency_code },
+                ref: account.id %>
           <% end %>
         <% end %>
       <% end %>
