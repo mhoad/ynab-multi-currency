@@ -1,3 +1,5 @@
+import 'bootstrap-datepicker'
+
 document.addEventListener("turbolinks:load", function() {
   function setYnabHiddenFields() {
     var budgetId = $("#conversion_ynab_account_id").find(":selected").data("budget-id");
@@ -15,5 +17,12 @@ document.addEventListener("turbolinks:load", function() {
 
   $("#conversion_ynab_account_id").change(function() {
     setYnabHiddenFields();
+  });
+
+  $('.datepicker').datepicker({
+    format: "dd/mm/yyyy",
+    weekStart: 1,
+    autoclose: true,
+    todayHighlight: true
   });
 })

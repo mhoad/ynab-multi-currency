@@ -9,5 +9,4 @@
 
 import 'bootstrap'
 import '../stylesheets/application.scss'
-
-import 'conversion_form'
+import 'conversion/new'
