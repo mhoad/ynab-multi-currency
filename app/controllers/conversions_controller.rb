@@ -1,4 +1,6 @@
 class ConversionsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @conversions = Conversion.all
   end
