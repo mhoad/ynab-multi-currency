@@ -4,6 +4,10 @@ class SyncsController < ApplicationController
     @sync = @conversion.create_draft_sync(since)
   end
 
+  def create
+    Sync.find(params[:sync_id]).confirm!
+  end
+
   private
 
   def since
