@@ -12,6 +12,26 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+      <div class="container">
+        <%= link_to "YNAB Multi-Currency", root_path, class: "navbar-brand" %>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="navbar-nav">
+            <%= link_to "My accounts", conversions_path, class: "nav-item nav-link" %>
+            <% if user_signed_in? %>
+              <%= link_to "Log out", destroy_user_session_path, class: "nav-item nav-link", method: :delete %>
+            <% else %>
+              <%= link_to "Log in", new_user_session_path, class: "nav-item nav-link" %>
+              <%= link_to "Sign up", new_user_registration_path, class: "nav-item nav-link" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
     <div class="container">
       <% if flash[:notice] %>
         <div class="alert alert-success" role="alert">
