@@ -2,7 +2,7 @@ class ConversionsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @conversions = Conversion.all
+    @conversions = current_user.conversions
   end
 
   def new
@@ -11,7 +11,7 @@ class ConversionsController < ApplicationController
   end
 
   def create
-    conversion = Conversion.create!(conversion_params)
+    conversion = current_user.conversions.create!(conversion_params)
     redirect_to(new_conversion_sync_path(conversion, since: params[:since]))
   end
 
