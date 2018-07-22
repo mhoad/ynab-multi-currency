@@ -1,5 +1,6 @@
 class Conversion < ApplicationRecord
   has_many :syncs
+  belongs_to :user
 
   def create_draft_sync(since)
     transactions = CurrencyConverter.new(
