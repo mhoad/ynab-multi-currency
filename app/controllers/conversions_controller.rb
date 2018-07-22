@@ -9,7 +9,8 @@ class ConversionsController < ApplicationController
   end
 
   def create
-    Conversion.create!(conversion_params)
+    conversion = Conversion.create!(conversion_params)
+    redirect_to(new_conversion_sync_path(conversion, since: params[:since]))
   end
 
   private
