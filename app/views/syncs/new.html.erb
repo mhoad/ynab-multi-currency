@@ -1,0 +1,24 @@
+<h1>New sync</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Payee</th>
+      <th scope="col">Memo</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sync.transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.date %></td>
+        <td><%= transaction.payee_name %></td>
+        <td><%= transaction.memo %></td>
+        <td><%= transaction.amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= button_to "Confirm", action: "create", params: { sync_id: @sync.id } %>
