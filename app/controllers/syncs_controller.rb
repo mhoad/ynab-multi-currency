@@ -6,6 +6,7 @@ class SyncsController < ApplicationController
 
   def create
     Sync.find(params[:sync_id]).confirm!
+    redirect_to(conversions_path)
   end
 
   private
