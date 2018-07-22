@@ -4,12 +4,11 @@ class SyncsController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @conversion = Conversion.find(params[:conversion_id])
-    @sync = @conversion.create_draft_sync(since)
+    @sync = conversion.create_draft_sync(since)
   end
 
   def create
-    sync = Sync.find(params[:sync_id])
+    sync = conversion.syncs.find(params[:sync_id])
     sync.confirm!
 
     flash[:notice] = "Succesfully synced #{pluralize(sync.transactions.count, "transaction")} "
@@ -20,6 +19,10 @@ class SyncsController < ApplicationController
   end
 
   private
+
+  def conversion
+    current_user.conversions.find(params[:conversion_id])
+  end
 
   def since
     if params[:since]
