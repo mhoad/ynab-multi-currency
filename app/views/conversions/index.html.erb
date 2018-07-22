@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col">
+    <%= link_to("Add Account", new_conversion_path, class: "btn btn-primary float-right") %>
+    <h1>Accounts to Convert</h1>
+  </div>
+</div>
+
+<div class="row">
+  <% @conversions.each do |conversion| %>
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title"><%= conversion.cached_ynab_account_name %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%= conversion.cached_ynab_budget_name %></h6>
+          <p class="card-text"><%= "#{conversion.from_currency} to #{conversion.to_currency}" %></p>
+          <%= link_to("Sync", new_conversion_sync_path(conversion), class: "btn btn-primary") %>
+          <a href="#" class="btn btn-outline-danger">Delete</a>
+        </div>
+        <div class="card-footer">
+          <% if conversion.last_synced_at %>
+            <small class="text-muted">Last synced <%= time_ago_in_words(conversion.last_synced_at) %> ago</small>
+          <% else %>
+            <small class="text-muted">Not synced yet</small>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

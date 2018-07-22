@@ -1,5 +1,6 @@
 class ConversionsController < ApplicationController
   def index
+    @conversions = Conversion.all
   end
 
   def new
