@@ -9,4 +9,8 @@ class User < ApplicationRecord
   def requires_ynab_authorization?
     ynab_access_token.blank? || ynab_expires_at.past?
   end
+
+  def ynab_user
+    Ynaby::User.new(ynab_access_token)
+  end
 end

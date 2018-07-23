@@ -19,6 +19,6 @@ class Conversion < ApplicationRecord
   private
 
   def ynab_account
-    Ynaby::Account.find(budget_id: ynab_budget_id, account_id: ynab_account_id)
+    user.ynab_user.budget(ynab_budget_id).account(ynab_account_id)
   end
 end

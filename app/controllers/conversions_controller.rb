@@ -7,7 +7,7 @@ class ConversionsController < ApplicationController
 
   def new
     @conversion = Conversion.new
-    @ynab_budgets = Ynaby::Budget.all
+    @ynab_budgets = current_user.ynab_user.budgets
   end
 
   def create
