@@ -11,12 +11,23 @@ class Oauth
   end
 
   def authorize!(code)
-    response = HTTParty.post(token_url(code))
+    response = HTTParty.post(token_url(code)).parsed_response
 
     @user.update!(
       ynab_access_token: response["access_token"],
       ynab_token_type: response["token_type"],
-      ynab_expires_at: token_exporation_time(response),
+      ynab_expires_at: token_expiration_time(response),
+      ynab_refresh_token: response["refresh_token"]
+    )
+  end
+
+  def refresh!
+    response = HTTParty.post(refresh_url).parsed_response
+
+    @user.update!(
+      ynab_access_token: response["access_token"],
+      ynab_token_type: response["token_type"],
+      ynab_expires_at: token_expiration_time(response),
       ynab_refresh_token: response["refresh_token"]
     )
   end
@@ -32,6 +43,14 @@ class Oauth
     "&code=#{code}"
   end
 
+  def refresh_url
+    "https://app.youneedabudget.com/oauth/token" \
+    "?client_id=#{client_id}" \
+    "&client_secret=#{client_secret}" \
+    "&grant_type=refresh_token" \
+    "&refresh_token=#{@user.ynab_refresh_token}"
+  end
+
   def client_id
     Rails.application.credentials.ynab_client_id
   end
@@ -44,7 +63,7 @@ class Oauth
     Rails.application.credentials[:ynab_redirect_uri][Rails.env.to_sym]
   end
 
-  def token_exporation_time(response)
+  def token_expiration_time(response)
     Time.at(response["created_at"]) + response["expires_in"].seconds
   end
 end
