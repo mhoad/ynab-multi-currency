@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   resources :conversions, only: [:index, :new, :create] do
     resources :syncs, only: [:new, :create]
   end
+
+  resources :oauth, only: [:index, :new]
 end

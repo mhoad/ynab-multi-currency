@@ -5,4 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :conversions
+
+  def requires_ynab_authorization?
+    ynab_access_token.blank? || ynab_expires_at.past?
+  end
 end

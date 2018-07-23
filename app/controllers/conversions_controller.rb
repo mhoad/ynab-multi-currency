@@ -1,5 +1,5 @@
 class ConversionsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :authorize_ynab!
 
   def index
     @conversions = current_user.conversions
