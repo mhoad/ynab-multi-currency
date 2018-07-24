@@ -28,7 +28,7 @@ class SyncsController < ApplicationController
     if params[:since]
       Date.parse(params[:since])
     else
-      @conversion.last_synced_at || raise("A date must me provided for the first sync")
+      conversion.last_synced_at || raise("A date must me provided for the first sync")
     end
   end
 end

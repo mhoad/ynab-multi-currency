@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <%= link_to("Add Account", new_conversion_path, class: "btn btn-primary float-right") %>
-    <h1>Accounts to Convert</h1>
+    <h1 class="mb-5">Accounts to convert</h1>
   </div>
 </div>
 
@@ -10,17 +10,29 @@
     <div class="col-md-4">
       <div class="card mb-4">
         <div class="card-body">
+          <a href="#" class="btn btn-outline-danger btn-sm float-right">Delete</a>
           <h5 class="card-title"><%= conversion.cached_ynab_account_name %></h5>
           <h6 class="card-subtitle mb-2 text-muted"><%= conversion.cached_ynab_budget_name %></h6>
           <p class="card-text"><%= "#{conversion.from_currency} to #{conversion.to_currency}" %></p>
-          <%= link_to("Sync", new_conversion_sync_path(conversion), class: "btn btn-primary") %>
-          <a href="#" class="btn btn-outline-danger">Delete</a>
         </div>
         <div class="card-footer">
           <% if conversion.last_synced_at %>
-            <small class="text-muted">Last synced <%= time_ago_in_words(conversion.last_synced_at) %> ago</small>
+            <small class="text-muted">Last conversion <%= time_ago_in_words(conversion.last_synced_at) %> ago</small>
           <% else %>
-            <small class="text-muted">Not synced yet</small>
+          <% end %>
+          <% if conversion.last_synced_at %>
+            <%= link_to("Convert now", new_conversion_sync_path(conversion), class: "btn btn-primary btn-sm float-right") %>
+          <% else %>
+          <small class="text-warning"><%= icon('fas', 'exclamation-triangle') %> Initial conversion pending</small>
+            <%= form_tag new_conversion_sync_path(conversion), method: :get do %>
+              <div class="input-group input-group-sm">
+                <input name="since" type="text" class="form-control datepicker border-warning" placeholder="Start date">
+                <div class="input-group-append">
+                  <button class="btn btn-warning" type="submit" id="button-sync-date">Convert</button>
+                </div>
+              </div>
+            <% end %>
+            <small class="form-text text-muted">Date of first transaction to convert</small>
           <% end %>
         </div>
       </div>
