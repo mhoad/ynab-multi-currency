@@ -14,7 +14,9 @@
   <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
       <div class="container">
-        <%= link_to "YNAB Multi-Currency", root_path, class: "navbar-brand" %>
+        <%= link_to root_path, class: "navbar-brand text-primary" do %>
+          <%= icon('fas', 'globe') %> YNAB Multi-Currency
+        <% end %>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
