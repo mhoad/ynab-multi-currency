@@ -2,7 +2,7 @@ class OauthController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    redirect_to oauth.authorization_url
+    @authorization_url = oauth.authorization_url
   end
 
   def index
