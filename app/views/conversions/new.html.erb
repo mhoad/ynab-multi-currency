@@ -49,3 +49,8 @@
 
   <%= f.submit "Add", class: "btn btn-primary" %>
 <% end %>
+
+<% content_for :head do %>
+  <%= javascript_pack_tag 'date_picker', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'conversion_form', 'data-turbolinks-track': 'reload' %>
+<% end %>

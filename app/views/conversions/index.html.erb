@@ -39,3 +39,7 @@
     </div>
   <% end %>
 </div>
+
+<% content_for :head do %>
+  <%= javascript_pack_tag 'date_picker', 'data-turbolinks-track': 'reload' %>
+<% end %>

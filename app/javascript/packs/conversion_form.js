@@ -1,4 +1,3 @@
-import 'bootstrap-datepicker'
 import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue/dist/vue.esm'
 
@@ -27,13 +26,9 @@ document.addEventListener("turbolinks:load", function() {
           document.getElementById("conversion_cached_ynab_account_name").value = ""
         }
       }
+    },
+    mounted() {
+      this.setYnabHiddenFields()
     }
   })
-
-  $('.datepicker').datepicker({
-    format: "dd/mm/yyyy",
-    weekStart: 1,
-    autoclose: true,
-    todayHighlight: true
-  });
 })
