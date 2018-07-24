@@ -8,6 +8,12 @@ class ConversionsController < ApplicationController
   def new
     @conversion = Conversion.new
     @ynab_budgets = current_user.ynab_user.budgets
+    @currency_options = ExchangeRate.currencies.map do |currency|
+      [
+        "#{currency.iso_code} - #{currency.name}",
+        currency.iso_code
+      ]
+    end
   end
 
   def create

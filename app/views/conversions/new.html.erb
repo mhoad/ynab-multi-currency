@@ -1,56 +1,59 @@
-<h1>New conversion</h1>
+<div class="col-md-6 offset-md-3">
+  <h1>Conversion setup</h1>
 
-<%= form_for @conversion, url: { action: "create" } do |f| %>
-  <div class="form-group">
-    <%= f.label :ynab_account_id, "Ynab account" %>
-    <%= f.select :ynab_account_id, nil, { prompt: "Pick a YNAB account to convert" }, { class: "form-control", "v-on:change" => "setYnabHiddenFields", "v-model" => "selected" } do %>
-      <% @ynab_budgets.each do |budget| %>
-        <%= content_tag :optgroup, label: budget.name do %>
-          <% budget.accounts.each do |account| %>
-            <%= content_tag :option,
-                account.name,
-                value: account.id,
-                data: {
-                  budget_id: budget.id,
-                  account_name: account.name,
-                  budget_name: budget.name,
-                  to_currency: budget.currency_code },
-                ref: account.id %>
+  <%= form_for @conversion, url: { action: "create" } do |f| %>
+    <div class="form-group">
+      <%= f.label :ynab_account_id, "Ynab account" %>
+      <%= f.select :ynab_account_id, nil, { prompt: "Pick a YNAB account to convert" }, { class: "form-control", "v-on:change" => "setYnabHiddenFields", "v-model" => "selected" } do %>
+        <% @ynab_budgets.each do |budget| %>
+          <%= content_tag :optgroup, label: budget.name do %>
+            <% budget.accounts.each do |account| %>
+              <%= content_tag :option,
+                  account.name,
+                  value: account.id,
+                  data: {
+                    budget_id: budget.id,
+                    account_name: account.name,
+                    budget_name: budget.name,
+                    to_currency: budget.currency_code },
+                  ref: account.id %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
-    <% end %>
-    <%= f.hidden_field :ynab_budget_id %>
-    <%= f.hidden_field :cached_ynab_account_name %>
-    <%= f.hidden_field :cached_ynab_budget_name %>
-  </div>
+      <%= f.hidden_field :ynab_budget_id %>
+      <%= f.hidden_field :cached_ynab_account_name %>
+      <%= f.hidden_field :cached_ynab_budget_name %>
+    </div>
 
-  <div class="form-row">
-    <div class="col">
-      <div class="form-group">
-        <%= f.label :from_currency, "Original account currency" %>
-        <%= f.select :from_currency, ["EUR", "USD", "GBP"], {}, { class: "form-control" } %>
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :from_currency, "Original account currency" %>
+          <%= f.select :from_currency, @currency_options, {}, { class: "form-control" } %>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= label_tag :to_currency, "Ynab Budget currency" %>
+          <%= f.text_field :to_currency, class: "form-control", readonly: true %>
+        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="form-group">
-        <%= label_tag :to_currency, "Ynab Budget currency" %>
-        <%= f.text_field :to_currency, class: "form-control", readonly: true %>
-      </div>
+
+    <div class="form-group">
+      <%= label_tag :since, "Pick a sync start date" %>
+      <%= text_field_tag :since,
+        Date.current.strftime("%d/%m/%Y"),
+        class: "form-control datepicker" %>
     </div>
-  </div>
 
-  <div class="form-group">
-    <%= label_tag :since, "Pick a sync start date" %>
-    <%= text_field_tag :since,
-      Date.current.strftime("%d/%m/%Y"),
-      class: "form-control datepicker" %>
-  </div>
+    <%= f.submit "Convert", class: "btn btn-primary" %>
+    <small class="form-text text-muted">You will be able to confirm the transactions in the next page.</small>
+  <% end %>
 
-  <%= f.submit "Add", class: "btn btn-primary" %>
-<% end %>
-
-<% content_for :head do %>
-  <%= javascript_pack_tag 'date_picker', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'conversion_form', 'data-turbolinks-track': 'reload' %>
-<% end %>
+  <% content_for :head do %>
+    <%= javascript_pack_tag 'date_picker', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'conversion_form', 'data-turbolinks-track': 'reload' %>
+  <% end %>
+</div>
