@@ -2,6 +2,8 @@ class Conversion < ApplicationRecord
   has_many :syncs
   belongs_to :user
 
+  scope :active, -> { where(deleted_at: nil) }
+
   def create_draft_sync(since)
     transactions = CurrencyConverter.new(
       transactions: ynab_account.transactions(since: since),

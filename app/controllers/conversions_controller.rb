@@ -2,7 +2,7 @@ class ConversionsController < ApplicationController
   before_action :authenticate_user!, :authorize_ynab!
 
   def index
-    @conversions = current_user.conversions
+    @conversions = current_user.conversions.active
   end
 
   def new
@@ -19,6 +19,15 @@ class ConversionsController < ApplicationController
   def create
     conversion = current_user.conversions.create!(conversion_params)
     redirect_to(new_conversion_sync_path(conversion, since: params[:since]))
+  end
+
+  def destroy
+    conversion = Conversion.find(params[:id])
+    conversion.update(deleted_at: Time.current)
+
+    flash[:notice] = "Your conversion has been deleted."
+
+    redirect_to conversions_path
   end
 
   private
