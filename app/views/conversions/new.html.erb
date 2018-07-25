@@ -3,7 +3,7 @@
 
   <%= form_for @conversion, url: { action: "create" } do |f| %>
     <div class="form-group">
-      <%= f.label :ynab_account_id, "Ynab account" %>
+      <%= f.label :ynab_account_id, "YNAB account" %>
       <%= f.select :ynab_account_id, nil, { prompt: "Pick a YNAB account to convert" }, { class: "form-control", "v-on:change" => "setYnabHiddenFields", "v-model" => "selected" } do %>
         <% @ynab_budgets.each do |budget| %>
           <%= content_tag :optgroup, label: budget.name do %>
@@ -35,7 +35,7 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <%= label_tag :to_currency, "Ynab Budget currency" %>
+          <%= label_tag :to_currency, "YNAB budget currency" %>
           <%= f.text_field :to_currency, class: "form-control", readonly: true %>
         </div>
       </div>
@@ -48,7 +48,14 @@
         class: "form-control datepicker" %>
     </div>
 
-    <%= f.submit "Convert", class: "btn btn-primary" %>
+    <div class="form-group">
+      <div class="form-check">
+        <%= f.check_box :sync_automatically, class: "form-check-input" %>
+        <%= f.label :sync_automatically, "Sync automatically once a week", class: "form-check-label" %>
+      </div>
+    </div>
+
+    <%= f.submit "Save & Convert", class: "btn btn-primary" %>
     <small class="form-text text-muted">You will be able to confirm the transactions in the next page.</small>
   <% end %>
 

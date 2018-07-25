@@ -32,7 +32,8 @@ class ConversionsController < ApplicationController
         :cached_ynab_account_name,
         :cached_ynab_budget_name,
         :from_currency,
-        :to_currency
+        :to_currency,
+        :sync_automatically
       )
   end
 end
