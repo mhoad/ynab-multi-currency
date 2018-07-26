@@ -54,11 +54,11 @@ class Oauth
   end
 
   def client_id
-    Rails.application.credentials.ynab_client_id
+    Rails.application.credentials[:ynab_client_id][Rails.env.to_sym]
   end
 
   def client_secret
-    Rails.application.credentials.ynab_client_secret
+    Rails.application.credentials[:ynab_client_secret][Rails.env.to_sym]
   end
 
   def redirect_uri
