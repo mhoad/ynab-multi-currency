@@ -22,7 +22,16 @@
           </div>
           <h5 class="card-title"><%= conversion.cached_ynab_account_name %></h5>
           <h6 class="card-subtitle mb-2 text-muted"><%= conversion.cached_ynab_budget_name %></h6>
-          <p class="card-text"><%= "#{conversion.from_currency} to #{conversion.to_currency}" %></p>
+          <p class="card-text">
+            <small>
+              <%= from_to_currencies(conversion) %><br>
+              <% if conversion.sync_automatically %>
+                Automatic conversion enabled <%= icon('fas', 'check') %>
+              <% else %>
+                <span class="text-muted">Automatic conversion disabled <%= icon('fas', 'times') %></span>
+              <% end %>
+            </small>
+          </p>
         </div>
         <div class="card-footer">
           <% if conversion.last_synced_at %>
