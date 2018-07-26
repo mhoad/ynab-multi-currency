@@ -1,6 +1,5 @@
 class CurrencyConverter
   include ActionView::Helpers::NumberHelper
-  include SyncsHelper
 
   CONVERSION_PREFIX = "CX rate"
 
@@ -32,7 +31,7 @@ class CurrencyConverter
   end
 
   def update_memo(old_memo, original_amount)
-    (old_memo || "").prepend("#{format_ynab_amount(original_amount, @from_currency)} (#{CONVERSION_PREFIX}: #{cx_rate}) ")
+    (old_memo || "").prepend("#{original_amount.format(disambiguate: true)} (#{CONVERSION_PREFIX}: #{cx_rate}) ")
   end
 
   def cx_rate
