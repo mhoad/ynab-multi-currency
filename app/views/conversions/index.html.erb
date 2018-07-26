@@ -67,9 +67,18 @@
       <div class="card-body">
         <h4 class="card-title">Tips to get started</h4>
         <ol>
-          <li>If you haven't already, log into your <%= link_to "YNAB budget", "https://youneedabudget.com", target: "_blank" %> and add your foreign currency account.</li>
-          <li><%= link_to "Setup your account", new_conversion_path, target: "_blank" %> on our website.</li>
-          <li>For the start date, pick the date of your oldest unconverted transaction.</li>
+          <li>
+            If you haven't already, log into your <%= link_to "YNAB budget",
+            "https://youneedabudget.com", target: "_blank" %> and add your
+            foreign currency account.
+          </li>
+          <li><%= link_to "Setup your account", new_conversion_path, target:
+            "_blank" %> on our website.
+          </li>
+          <li>
+            For the start date, pick the date of your oldest unconverted
+            transaction.
+          </li>
         </ol>
         <%= link_to(new_conversion_path, class: "btn btn-primary") do %>
           <%= icon('fas', 'plus') %> New conversion setup
@@ -77,11 +86,31 @@
       </div>
       <div class="card-footer">
         <h5 class="card-title">Be careful with foreign exchange risk</h5>
-        <p class="card-text">It's convinient to measure your budget in a single currency, but currency exchange rates are volatile. We suggest you take the following measure to mitigate this risk (this is not financial advice):</p>
+        <p class="card-text">
+          It's convinient to measure your budget in a single currency, but
+          currency exchange rates are volatile. We suggest that you take the
+          following measures to mitigate this risk (this is not financial advice):
+        </p>
         <ul>
-          <li><b>Periodically adjust your YNAB account balance:</b> Once a month or so, you should manually convert the balance of your bank statement and update it in YNAB (right-click on your account > Today's Balance). This will create an adjustment transaction which corresponds to the exchange rate fluctuation on that month.</li>
-          <li><b>Create a YNAB category for exchange rate fluctuation:</b> Allocate money every month potential exchange rate mood swings. You can use this category to cover the adjustment transactions mentioned above.</li>
-          <li><b>Choose the right YNAB currency:</b> You should choose a YNAB currency that takes the mst part of your balance. If you have a foreign currency taking a big chunk of your net worth, then you might have a harder time managing exchange rate fluctuation.</li>
+          <li>
+            <b>Periodically adjust your YNAB account balance:</b> Once a month
+            or so, you should manually convert the balance of your bank
+            statement and update it in YNAB (right-click on your account >
+            Today's Balance). This will create an adjustment transaction which
+            corresponds to the exchange rate fluctuation on that month.
+          </li>
+          <li>
+            <b>Create a YNAB category for exchange rate fluctuation:</b>
+            Allocate money every month to potential exchange rate-related
+            losses. You can use this category to cover the adjustment
+            transactions mentioned above.
+          </li>
+          <li>
+            <b>Choose the right YNAB currency:</b> You should choose the YNAB
+            currency that takes the most part of your balance. If you have a
+            foreign currency taking a big chunk of your net worth, then you
+            might have a harder time managing exchange rate fluctuation.
+          </li>
         </ul>
       </div>
     </div>

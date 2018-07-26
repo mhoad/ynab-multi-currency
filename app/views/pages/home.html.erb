@@ -1,6 +1,10 @@
 <div class="jumbotron">
   <h1 class="display-4">Multi-currency for YNAB</h1>
-  <p class="lead">Manage budgets with multiple currencies by automatically converting your foreign account's transactions to your YNAB budget currency.</p>
+  <p class="lead">
+    Manage <%= link_to "YNAB", "https://www.youneedabudget.com/", target: "_blank" %>
+    accounts with multiple currencies in a single budget. It works by automatically
+    converting your foreign account's transactions to your YNAB budget currency
+  </p>
   <a class="btn btn-primary btn-lg" href="<%= new_user_registration_path %>" role="button">Sign up</a>
   <a class="btn btn-outline-primary btn-lg" href="<%= new_user_session_path %>" role="button">Log in</a>
 </div>
@@ -9,7 +13,7 @@
   <div class="col">
     <h1 class="text-primary"><%= icon('far', 'money-bill-alt') %></h1>
     <h4>Currency conversion</h4>
-    <p class="text-secondary">Convert your transaction amounts to any of the more than 150 supported currencies refreshed daily.</p>
+    <p class="text-secondary">Convert your transaction amounts to any of the more than 150 supported currencies. We refresh our rates daily.</p>
   </div>
   <div class="col">
     <h1 class="text-primary"><%= icon('fas', 'sync-alt') %></h1>
