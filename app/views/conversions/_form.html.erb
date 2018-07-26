@@ -1,4 +1,4 @@
-<%= form_for @conversion, url: { action: "create" }, html: { class: "conversion-vue" } do |f| %>
+<%= form_for @conversion, html: { class: "conversion-vue" } do |f| %>
   <div class="form-group">
     <%= f.label :ynab_account_id, "YNAB account" %>
     <%= f.select :ynab_account_id, nil, { prompt: "Pick a YNAB account to convert" }, { class: "form-control", "v-on:change" => "setYnabHiddenFields" } do %>
@@ -13,7 +13,8 @@
                   account_name: account.name,
                   budget_name: budget.name,
                   to_currency: budget.currency_code },
-                ref: account.id %>
+                ref: account.id,
+                selected: account.id == @conversion.ynab_account_id %>
           <% end %>
         <% end %>
       <% end %>
@@ -48,12 +49,16 @@
   <div class="form-group">
     <div class="form-check">
       <%= f.check_box :sync_automatically, class: "form-check-input" %>
-      <%= f.label :sync_automatically, "Sync automatically once a week", class: "form-check-label" %>
+      <%= f.label :sync_automatically, "Convert automatically once a day", class: "form-check-label" %>
     </div>
   </div>
 
-  <%= f.submit "Save & Convert", class: "btn btn-primary" %>
-  <small class="form-text text-muted">You will be able to confirm the transactions in the next page.</small>
+  <% if action_name.in?(["new", "create"]) %>
+    <%= f.submit "Save & Convert", class: "btn btn-primary" %>
+    <small class="form-text text-muted">You will be able to confirm the transactions in the next page.</small>
+  <% elsif action_name.in?(["edit", "update"]) %>
+    <%= f.submit "Update", class: "btn btn-primary" %>
+  <% end %>
 <% end %>
 
 <% content_for :head do %>
