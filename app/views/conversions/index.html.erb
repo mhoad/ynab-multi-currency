@@ -13,7 +13,9 @@
       <div class="card mb-4">
         <div class="card-body">
           <div class="btn-group float-right">
-            <a href="#" class="btn btn-outline-secondary btn-sm"><%= icon('fas', 'edit') %></a>
+            <%= link_to(edit_conversion_path(conversion), class: "btn btn-outline-secondary btn-sm") do %>
+              <%= icon('fas', 'edit') %>
+            <% end %>
             <%= link_to(conversion_path(conversion), method: :delete, class: "btn btn-outline-secondary btn-sm", data: { confirm: "Are you sure that you want to delete this conversion?" }) do %>
               <%= icon('fas', 'trash-alt') %>
             <% end %>

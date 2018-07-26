@@ -6,15 +6,13 @@ Vue.use(TurbolinksAdapter)
 
 document.addEventListener("turbolinks:load", function() {
   const app = new Vue({
-    el: '#new_conversion',
-    data: {
-      selected: ''
-    },
+    el: '.conversion-vue',
     methods: {
       setYnabHiddenFields: function() {
-        var account = this.$refs[this.selected]
+        var accounts = document.getElementById("conversion_ynab_account_id")
+        var account = accounts.options[accounts.selectedIndex]
 
-        if (account) {
+        if (account.value) {
           document.getElementById("conversion_to_currency").value = account.dataset.toCurrency
           document.getElementById("conversion_ynab_budget_id").value = account.dataset.budgetId
           document.getElementById("conversion_cached_ynab_budget_name").value = account.dataset.budgetName

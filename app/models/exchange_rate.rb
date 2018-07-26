@@ -10,8 +10,12 @@ class ExchangeRate < ApplicationRecord
     exrate.save!
   end
 
+  def self.currency_codes
+    select(:from).distinct.order(:from).pluck(:from)
+  end
+
   def self.currencies
-    select(:from).distinct.order(:from).pluck(:from).map do |from|
+    currency_codes.map do |from|
       Money::Currency.new(from)
     end
   end
