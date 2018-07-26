@@ -6,6 +6,8 @@ class Sync < ApplicationRecord
 
   def confirm!
     transactions.each(&:update)
-    update(confirmed: true)
+    count = transactions.count
+    update(confirmed: true, transactions: nil)
+    count
   end
 end

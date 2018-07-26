@@ -17,11 +17,9 @@ class SyncsController < ApplicationController
 
   def create
     sync = conversion.syncs.find(params[:sync_id])
-    sync.confirm!
+    count = sync.confirm!
 
-    flash[:notice] = "Succesfully synced #{pluralize(sync.transactions.count, "transaction")}"
-
-    sync.update(transactions: nil)
+    flash[:notice] = "Succesfully synced #{pluralize(count, "transaction")}"
 
     redirect_to(conversions_path)
   end

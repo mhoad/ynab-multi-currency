@@ -3,6 +3,8 @@ class Conversion < ApplicationRecord
   belongs_to :user
 
   scope :active, -> { where(deleted_at: nil) }
+  scope :automatic, -> { where(sync_automatically: true) }
+  scope :syncable, -> { active.active.joins(:syncs).merge(Sync.confirmed).uniq }
 
   validates :ynab_budget_id, presence: true
   validates :ynab_account_id, presence: true
@@ -24,18 +26,20 @@ class Conversion < ApplicationRecord
   validates :user, presence: true
   validate :distinct_currencies
 
-  def create_draft_sync(since)
-    transactions = CurrencyConverter.new(
-      transactions: ynab_account.transactions(since: since),
-      from: from_currency,
-      to: to_currency
-    ).run
-
-    syncs.create(transactions: transactions)
+  def create_draft_sync(since = last_synced_at)
+    syncs.create(transactions: pending_transactions(since))
   end
 
   def last_synced_at
     syncs.confirmed.last&.created_at
+  end
+
+  def pending_transactions(since)
+    CurrencyConverter.new(
+      transactions: ynab_account.transactions(since: since),
+      from: from_currency,
+      to: to_currency
+    ).run
   end
 
   private
