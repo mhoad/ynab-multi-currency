@@ -17,11 +17,15 @@ class SyncsController < ApplicationController
 
   def create
     sync = conversion.syncs.find(params[:sync_id])
-    count = sync.confirm!
 
-    flash[:notice] = "Succesfully synced #{pluralize(count, "transaction")}"
-
-    redirect_to(conversions_path)
+    if sync.transactions.blank?
+      flash[:alert] = "Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again."
+      redirect_to new_conversion_sync_path(conversion)
+    else
+      count = sync.confirm!
+      flash[:notice] = "Succesfully synced #{pluralize(count, "transaction")}"
+      redirect_to conversions_path
+    end
   end
 
   private

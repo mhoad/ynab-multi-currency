@@ -9,8 +9,10 @@ namespace :ynab_multi_currency do
     end
   end
 
-  desc "TODO"
-  task delete_transactions: :environment do
+  desc "Deletes stale transactions from unconfirmed syncs"
+  task delete_stale_transactions: :environment do
+    count = Sync.delete_stale_transactions
+    puts "Deleted transactions from #{count} stale syncs"
   end
 
 end

@@ -5,7 +5,7 @@
         <h4 class="card-title">Please authorize us to connect to your YNAB account</h4>
         <p>In order to convert your transactions, we need you to approve us as a trusted application to access your YNAB transactions.</p>
         <p>You can revoke this authorization at any moment.</p>
-        <p>Each time you will ask us to convert your transactions to another currency, we will temporarily save them in our system for a few minutes to let you approve them. As soon as they are re-uploaded to YNAB, we remove them from a our database. Any abandoned transactions are automatically destroyed from our database every 10 minutes.</p>
+        <p>Each time you will ask us to convert your transactions to another currency, we will temporarily save them in our system for a few minutes to let you approve them. As soon as they are re-uploaded to YNAB, we remove them from a our database. Any abandoned transactions are automatically destroyed from our database every hour.</p>
         <%= link_to(@authorization_url, class: "btn btn-primary btn-lg btn-block") do %>
           <%= icon('fas', 'leaf') %> Connect to YNAB
         <% end %>
