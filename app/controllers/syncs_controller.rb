@@ -5,13 +5,21 @@ class SyncsController < ApplicationController
 
   def new
     @sync = conversion.create_draft_sync(since)
+
+    if @sync.transactions.blank?
+      @sync.confirm!
+
+      flash[:alert] = "No transactions found to convert"
+
+      redirect_to conversions_path
+    end
   end
 
   def create
     sync = conversion.syncs.find(params[:sync_id])
     sync.confirm!
 
-    flash[:notice] = "Succesfully synced #{pluralize(sync.transactions.count, "transaction")} "
+    flash[:notice] = "Succesfully synced #{pluralize(sync.transactions.count, "transaction")}"
 
     sync.update(transactions: nil)
 

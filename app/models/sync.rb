@@ -1,5 +1,5 @@
 class Sync < ApplicationRecord
-  serialize :transactions
+  serialize :transactions, Array
   belongs_to :conversion
 
   scope :confirmed, -> { where(confirmed: true).order(:created_at) }
