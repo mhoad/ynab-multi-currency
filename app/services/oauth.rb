@@ -24,12 +24,14 @@ class Oauth
   def refresh!
     response = HTTParty.post(refresh_url).parsed_response
 
-    @user.update!(
-      ynab_access_token: response["access_token"],
-      ynab_token_type: response["token_type"],
-      ynab_expires_at: token_expiration_time(response),
-      ynab_refresh_token: response["refresh_token"]
-    )
+    if response["error"].blank?
+      @user.update!(
+        ynab_access_token: response["access_token"],
+        ynab_token_type: response["token_type"],
+        ynab_expires_at: token_expiration_time(response),
+        ynab_refresh_token: response["refresh_token"]
+      )
+    end
   end
 
   private
