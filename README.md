@@ -45,8 +45,20 @@ ynab_redirect_uri:
   production: https://my-website.com/oauth
 ```
 
-5. If deploying to Heroku, add the master key to your env variables. **Never commit the master key**.
+5. Add the master key to your env variables. **Never commit the master key to git**. If using Heroku, you can run:
 
 ```
 heroku config:set RAILS_MASTER_KEY=$(cat config/master.key)
 ```
+
+6. Fetch exchange rates (only required once, rates will be refreshed automatically on expiration).
+
+```
+rake ynab_multi_currency:fetch_exchange_rates
+```
+
+7. Schedule recurrent tasks (e.g. using cron):
+
+`rake ynab_multi_currency:sync_accounts` converts transactions for conversions configured with automatic sync (for example, run once a day).
+
+`rake ynab_multi_currency:delete_stale_transactions` deletes stale transactions from unconfirmed syncs (for example, run every hour).

@@ -21,4 +21,9 @@ namespace :ynab_multi_currency do
     puts "Deleted transactions from #{count} stale syncs"
   end
 
+  desc "Initial download of the exchange rates"
+  task fetch_exchange_rates: :environment do
+    rates = Money.default_bank.update_rates
+    puts "Fetched #{rates.count} rates"
+  end
 end
