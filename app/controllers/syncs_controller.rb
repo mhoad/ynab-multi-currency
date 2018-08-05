@@ -4,7 +4,7 @@ class SyncsController < ApplicationController
   before_action :authenticate_user!, :authorize_ynab!
 
   def new
-    @sync = conversion.create_draft_sync(since)
+    @sync = conversion.create_draft_sync
 
     if @sync.transactions.blank?
       @sync.confirm!

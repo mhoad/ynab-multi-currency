@@ -34,27 +34,18 @@
           </p>
         </div>
         <div class="card-footer">
-          <% if conversion.last_synced_at %>
-            <div class="row align-items-center">
-              <div class="col">
+          <div class="row align-items-center">
+            <div class="col">
+              <% if conversion.last_synced_at %>
                 <small class="text-muted">Last conversion <%= time_ago_in_words(conversion.last_synced_at) %> ago</small>
-              </div>
-              <div class="col-auto">
-                <%= link_to("Convert now", new_conversion_sync_path(conversion), class: "btn btn-primary btn-sm float-right") %>
-              </div>
+              <% else %>
+                <small class="text-warning"><%= icon('fas', 'exclamation-triangle') %> Not converted yet</small>
+              <% end %>
             </div>
-          <% else %>
-          <small class="text-warning"><%= icon('fas', 'exclamation-triangle') %> Initial conversion pending</small>
-            <%= form_tag new_conversion_sync_path(conversion), method: :get do %>
-              <div class="input-group input-group-sm">
-                <input name="since" type="text" class="form-control datepicker border-warning" placeholder="Start date">
-                <div class="input-group-append">
-                  <button class="btn btn-warning" type="submit" id="button-sync-date">Convert</button>
-                </div>
-              </div>
-            <% end %>
-            <small class="form-text text-muted">Date of first transaction to convert</small>
-          <% end %>
+            <div class="col-auto">
+              <%= link_to("Convert now", new_conversion_sync_path(conversion), class: "btn btn-primary btn-sm float-right") %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
