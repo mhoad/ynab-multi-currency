@@ -4,4 +4,7 @@ class PagesController < ApplicationController
       redirect_to conversions_path
     end
   end
+
+  def privacy
+  end
 end

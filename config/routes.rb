@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
+  get "privacy", to: "pages#privacy"
 
   resources :conversions, only: [:index, :new, :create, :edit, :update, :destroy] do
     resources :syncs, only: [:new, :create]
