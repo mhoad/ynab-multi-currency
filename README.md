@@ -4,7 +4,7 @@ Rails application to manage [YNAB](https://www.youneedabudget.com/) accounts wit
 
 It works by automatically converting your foreign account's transactions to your YNAB budget currency.
 
-Check out the [demo app](https://ynab-multi-currency.herokuapp.com/).
+Check out the [demo app](https://ynab.rmillan.com/).
 
 ## Development set up
 
