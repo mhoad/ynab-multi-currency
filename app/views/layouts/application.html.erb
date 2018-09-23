@@ -48,13 +48,14 @@
         </div>
       <% end %>
 
-    <%= yield %>
-    </div>
+      <%= yield %>
 
-    <footer class="navbar navbar-light bg-light fixed-bottom">
-      <div class="container">
-        <%= link_to "Privacy", privacy_path %>
-      </div>
-    </footer>
+      <footer class="navbar navbar-expand-md navbar-light bg-light mt-4 mb-4 rounded">
+        <div class="navbar-nav">
+          <%= link_to "Privacy", privacy_path, class: "nav-item nav-link" %>
+          <%= mail_to "ynab@rmillan.com", "Contact Us", class: "nav-item nav-link" %>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
