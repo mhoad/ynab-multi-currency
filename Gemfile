@@ -41,6 +41,7 @@ gem 'money-open-exchange-rates'
 gem 'devise'
 gem 'httparty'
 gem 'font-awesome-sass'
+gem 'sendgrid-ruby'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
