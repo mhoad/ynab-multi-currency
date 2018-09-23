@@ -95,4 +95,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: 'ynab.rmillan.com' }
+
+  config.middleware.insert_before ActionDispatch::SSL, Rack::HostRedirect, {
+    'ynab-multi-currency.herokuapp.com' => 'ynab.rmillan.com'
+  }
 end
