@@ -22,6 +22,22 @@ class User < ApplicationRecord
     end
   end
 
+  def subscribe_to_newsletter!
+    if Rails.env.production?
+      mailchimp_api_key = Rails.application.credentials.mailchimp_api_key
+      mailchimp_list_id = Rails.application.credentials.mailchimp_list_id
+
+      gibbon = Gibbon::Request.new(api_key: mailchimp_api_key)
+
+      gibbon.lists(mailchimp_list_id).members.create(
+        body: {
+          email_address: email,
+          status: "subscribed"
+        }
+      )
+    end
+  end
+
   private
 
   def requires_ynab_refresh?

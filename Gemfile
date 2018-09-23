@@ -44,6 +44,7 @@ gem 'font-awesome-sass'
 gem 'sendgrid-ruby'
 gem 'rollbar'
 gem 'rack-host-redirect'
+gem 'gibbon'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
