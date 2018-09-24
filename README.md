@@ -51,14 +51,10 @@ ynab_redirect_uri:
 heroku config:set RAILS_MASTER_KEY=$(cat config/master.key)
 ```
 
-6. Fetch exchange rates (only required once, rates will be refreshed automatically on expiration).
-
-```
-rake ynab_multi_currency:fetch_exchange_rates
-```
-
-7. Schedule recurrent tasks (e.g. using cron):
+6. Schedule recurrent tasks (e.g. using cron):
 
 `rake ynab_multi_currency:sync_accounts` converts transactions for conversions configured with automatic sync (for example, run once a day).
 
 `rake ynab_multi_currency:delete_stale_transactions` deletes stale transactions from unconfirmed syncs (for example, run every hour).
+
+`rake ynab_multi_currency:fetch_exchange_rates` will fetch exchange rates (for example, run once a day)
