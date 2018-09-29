@@ -27,6 +27,8 @@ class Conversion < ApplicationRecord
   validates :user, presence: true
   validate :distinct_currencies
 
+  enum memo_position: [:left, :right], _suffix: true
+
   def create_draft_sync
     syncs.create(transactions: pending_transactions)
   end
@@ -41,7 +43,8 @@ class Conversion < ApplicationRecord
     CurrencyConverter.new(
       transactions: ynab_account.transactions(since: start_date),
       from: from_currency,
-      to: to_currency
+      to: to_currency,
+      memo_position: memo_position
     ).run
   end
 

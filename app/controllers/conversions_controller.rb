@@ -65,7 +65,8 @@ class ConversionsController < ApplicationController
         :from_currency,
         :to_currency,
         :sync_automatically,
-        :start_date
+        :start_date,
+        :memo_position
       )
   end
 

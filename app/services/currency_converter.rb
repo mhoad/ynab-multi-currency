@@ -5,10 +5,11 @@ class CurrencyConverter
   DEPRECATED_CONVERSION_PREFIXES = ["CX rate"]
   SKIP_KEYWORD = "skip"
 
-  def initialize(transactions:, from:, to:)
+  def initialize(transactions:, from:, to:, memo_position: "left")
     @transactions = transactions
     @from_currency = from
     @to_currency = to
+    @memo_position = memo_position
   end
 
   def run
@@ -43,7 +44,29 @@ class CurrencyConverter
   end
 
   def update_memo(old_memo, original_amount)
-    (old_memo || "").prepend("#{original_amount.format(disambiguate: true)} (#{CONVERSION_PREFIX}: #{cx_rate}) ")
+    conversion_text = conversion_text(original_amount, old_memo.present?)
+
+    (old_memo || "")
+      .slice(0...50-conversion_text.length)
+      .send(memo_position_method_name, conversion_text)
+  end
+
+  def memo_position_method_name
+    if @memo_position == "right"
+      :<<
+    else
+      :prepend
+    end
+  end
+
+  def conversion_text(original_amount, separator)
+    memo = "#{original_amount.format(disambiguate: true)} (#{CONVERSION_PREFIX}: #{cx_rate}) "
+
+    if separator
+      " · ".send(memo_position_method_name, memo)
+    else
+      memo
+    end
   end
 
   def cx_rate

@@ -53,6 +53,26 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <span class="form-check-label">Conversion memo position</span>
+    <div class="form-check">
+      <%= f.radio_button :memo_position, :left, class: "form-check-input", checked: @conversion.left_memo_position? %>
+      <%= f.label :memo_position_left, class: "form-check-label" do %>
+        Left <small class="text-muted">Example: "US$-17.50 (FX rate: 0.85045) · My original memo"</small>
+      <% end %>
+    </div>
+    <div class="form-check">
+      <%= f.radio_button :memo_position, :right, class: "form-check-input", checked: @conversion.right_memo_position? %>
+      <%= f.label :memo_position_right, class: "form-check-label" do %>
+        Right <small class="text-muted">Example: "My original memo · US$-17.50 (FX rate: 0.85045)"</small>
+      <% end %>
+    </div>
+    <small class="form-text text-muted">
+      This annotation will be added to the original transaction memo.
+      Never delete the <code><%= CurrencyConverter::CONVERSION_PREFIX %></code> part as this is how we know that the transaction was already converted.
+    </small>
+  </div>
+
   <% if action_name.in?(["new", "create"]) %>
     <%= f.submit "Save & Convert", class: "btn btn-primary" %>
     <small class="form-text text-muted">You will be able to confirm the transactions in the next page.</small>
