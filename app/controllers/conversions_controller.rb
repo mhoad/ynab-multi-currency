@@ -1,5 +1,6 @@
 class ConversionsController < ApplicationController
-  before_action :authenticate_user!, :authorize_ynab!
+  before_action :authenticate_user!
+  around_action :authorize_ynab!, except: [:index, :destroy]
 
   def index
     @conversions = current_user.conversions.active.order(:created_at)

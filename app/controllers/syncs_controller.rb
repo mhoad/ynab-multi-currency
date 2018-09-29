@@ -1,7 +1,8 @@
 class SyncsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_action :authenticate_user!, :authorize_ynab!
+  before_action :authenticate_user!
+  around_action :authorize_ynab!
 
   def new
     @sync = conversion.create_draft_sync

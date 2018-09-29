@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :conversions
 
   def requires_ynab_authorization?
-    ynab_access_token.blank? || invalid_token?
+    ynab_access_token.blank? || !refresh_ynab_token_if_needed!
   end
 
   def ynab_user
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   def refresh_ynab_token_if_needed!
-    if requires_ynab_refresh?
+    if ynab_expires_at&.past?
       !!Oauth.new(self).refresh!
     else
       true
@@ -35,20 +35,6 @@ class User < ApplicationRecord
           status: "subscribed"
         }
       )
-    end
-  end
-
-  private
-
-  def requires_ynab_refresh?
-    ynab_expires_at&.past?
-  end
-
-  def invalid_token?
-    begin
-      !ynab_user.budgets
-    rescue YnabApi::ApiError => e
-      e.message == "Unauthorized" || raise
     end
   end
 end
