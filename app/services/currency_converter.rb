@@ -2,6 +2,7 @@ class CurrencyConverter
   include ActionView::Helpers::NumberHelper
 
   CONVERSION_PREFIX = "CX rate"
+  SKIP_KEYWORD = "skip"
 
   def initialize(transactions:, from:, to:)
     @transactions = transactions
@@ -11,7 +12,7 @@ class CurrencyConverter
 
   def run
     @transactions.map do |transaction|
-      if !already_converted?(transaction)
+      if unconverted?(transaction) && not_skipped?(transaction)
         original_amount = Money.new(transaction.amount/10, @from_currency)
         transaction.amount = convert(original_amount)
         transaction.memo = update_memo(transaction.memo, original_amount)
@@ -22,8 +23,12 @@ class CurrencyConverter
 
   private
 
-  def already_converted?(transaction)
-    /#{Regexp.quote(CONVERSION_PREFIX)}/ === transaction.memo
+  def unconverted?(transaction)
+    /#{Regexp.quote(CONVERSION_PREFIX)}/ !~ transaction.memo
+  end
+
+  def not_skipped?(transaction)
+    /#{Regexp.quote(SKIP_KEYWORD)}/e !~ transaction.memo
   end
 
   def convert(amount)
