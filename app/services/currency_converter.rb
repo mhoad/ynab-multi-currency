@@ -1,7 +1,8 @@
 class CurrencyConverter
   include ActionView::Helpers::NumberHelper
 
-  CONVERSION_PREFIX = "CX rate"
+  CONVERSION_PREFIX = "FX rate"
+  DEPRECATED_CONVERSION_PREFIXES = ["CX rate"]
   SKIP_KEYWORD = "skip"
 
   def initialize(transactions:, from:, to:)
@@ -24,7 +25,13 @@ class CurrencyConverter
   private
 
   def unconverted?(transaction)
-    /#{Regexp.quote(CONVERSION_PREFIX)}/ !~ transaction.memo
+    supported_prefixes.none? do |prefix|
+      /#{Regexp.quote(prefix)}/ =~ transaction.memo
+    end
+  end
+
+  def supported_prefixes
+    DEPRECATED_CONVERSION_PREFIXES + [CONVERSION_PREFIX]
   end
 
   def not_skipped?(transaction)
