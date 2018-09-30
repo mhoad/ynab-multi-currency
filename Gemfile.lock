@@ -1,9 +1,3 @@
-PATH
-  remote: vendor/ynaby-0.2.0
-  specs:
-    ynaby (0.2.0)
-      ynab (~> 0.7.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -234,6 +228,8 @@ GEM
     ynab (0.7.0)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
+    ynaby (0.3.0)
+      ynab (~> 0.7.0)
 
 PLATFORMS
   ruby
@@ -264,7 +260,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   webpacker
-  ynaby (= 0.2.0)!
+  ynaby
 
 RUBY VERSION
    ruby 2.5.0p0
