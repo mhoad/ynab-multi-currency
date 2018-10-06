@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :conversions
+  has_many :conversions, dependent: :destroy
 
   def requires_ynab_authorization?
     ynab_access_token.blank? || !refresh_ynab_token_if_needed!

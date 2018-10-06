@@ -1,5 +1,5 @@
 class Conversion < ApplicationRecord
-  has_many :syncs
+  has_many :syncs, dependent: :destroy
   belongs_to :user
 
   scope :active, -> { where(deleted_at: nil) }
