@@ -14,7 +14,7 @@ class CurrencyConverter
 
   def run
     @transactions.map do |transaction|
-      if unconverted?(transaction) && not_skipped?(transaction)
+      if unconverted?(transaction) && not_skipped?(transaction) && without_subtransactions?(transaction)
         original_amount = Money.new(transaction.amount/10, @from_currency)
         transaction.amount = convert(original_amount)
         transaction.memo = update_memo(transaction.memo, original_amount)
@@ -37,6 +37,11 @@ class CurrencyConverter
 
   def not_skipped?(transaction)
     /#{Regexp.quote(SKIP_KEYWORD)}/e !~ transaction.memo
+  end
+
+  # Uploading subtransactions is unsupported by the Ynab API
+  def without_subtransactions?(transaction)
+    transaction.subtransactions.blank?
   end
 
   def convert(amount)
