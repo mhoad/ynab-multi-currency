@@ -36,7 +36,7 @@ class CurrencyConverter
   end
 
   def not_skipped?(transaction)
-    /#{Regexp.quote(SKIP_KEYWORD)}/e !~ transaction.memo
+    /#{Regexp.quote(SKIP_KEYWORD)}/i !~ transaction.memo
   end
 
   # Uploading subtransactions is unsupported by the Ynab API
