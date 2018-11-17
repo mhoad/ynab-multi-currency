@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
       yield
 
-    rescue YnabApi::ApiError => e
+    rescue YNAB::ApiError => e
       e.message == "Unauthorized" || raise
       return redirect_to new_oauth_path
     end
