@@ -15,7 +15,7 @@ class CurrencyConverter
   def run
     @transactions.map do |transaction|
       if unconverted?(transaction) && not_skipped?(transaction) && without_subtransactions?(transaction)
-        original_amount = Money.from_amount(transaction.amount/1000, @from_currency)
+        original_amount = Money.from_amount(transaction.amount.fdiv(1000), @from_currency)
         transaction.amount = convert(original_amount)
         transaction.memo = update_memo(transaction.memo, original_amount)
         transaction
