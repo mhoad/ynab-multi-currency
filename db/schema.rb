@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_29_152336) do
+ActiveRecord::Schema.define(version: 2018_11_17_085418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2018_09_29_152336) do
     t.boolean "sync_automatically", default: true
     t.date "start_date"
     t.integer "memo_position", default: 0
+    t.float "offset"
     t.index ["user_id"], name: "index_conversions_on_user_id"
   end
 

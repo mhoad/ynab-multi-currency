@@ -5,17 +5,18 @@ class CurrencyConverter
   DEPRECATED_CONVERSION_PREFIXES = ["CX rate"]
   SKIP_KEYWORD = "skip"
 
-  def initialize(transactions:, from:, to:, memo_position: "left")
-    @transactions = transactions
-    @from_currency = from
-    @to_currency = to
-    @memo_position = memo_position
+  def initialize(conversion)
+    @conversion = conversion
+    @from_currency = conversion.from_currency
+    @to_currency = conversion.to_currency
+    @memo_position = conversion.memo_position || "left"
+    @offset = conversion.offset || 1
   end
 
   def run
-    @transactions.map do |transaction|
+    @conversion.transactions_since_start_date.map do |transaction|
       if unconverted?(transaction) && not_skipped?(transaction) && without_subtransactions?(transaction)
-        original_amount = Money.from_amount(transaction.amount.fdiv(1000), @from_currency)
+        original_amount = Money.from_amount(transaction.amount.fdiv(1000), @from_currency) * @offset
         transaction.amount = convert(original_amount)
         transaction.memo = update_memo(transaction.memo, original_amount)
         transaction

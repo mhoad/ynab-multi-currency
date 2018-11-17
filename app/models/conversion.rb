@@ -26,6 +26,7 @@ class Conversion < ApplicationRecord
 
   validates :user, presence: true
   validate :distinct_currencies
+  validate :base_ten_offset
 
   enum memo_position: [:left, :right], _suffix: true
 
@@ -37,15 +38,14 @@ class Conversion < ApplicationRecord
     syncs.confirmed.last&.created_at
   end
 
+  def transactions_since_start_date
+    ynab_account.transactions(since: start_date)
+  end
+
   private
 
   def pending_transactions
-    CurrencyConverter.new(
-      transactions: ynab_account.transactions(since: start_date),
-      from: from_currency,
-      to: to_currency,
-      memo_position: memo_position
-    ).run
+    CurrencyConverter.new(self).run
   end
 
   def ynab_account
@@ -55,6 +55,12 @@ class Conversion < ApplicationRecord
   def distinct_currencies
     if from_currency == to_currency
       errors.add(:from_currency, "has to be different from the target currency")
+    end
+  end
+
+  def base_ten_offset
+    if offset && (exponent = Math.log10(offset)) != exponent.round
+      errors.add(:offset, "has to be base 10 (0.001, 0.1, 1, 10, 100, etc.)")
     end
   end
 end

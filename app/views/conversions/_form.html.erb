@@ -53,24 +53,43 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <span class="form-check-label">Conversion memo position</span>
-    <div class="form-check">
-      <%= f.radio_button :memo_position, :left, class: "form-check-input", checked: @conversion.left_memo_position? %>
-      <%= f.label :memo_position_left, class: "form-check-label" do %>
-        Left <small class="text-muted">Example: "US$-17.50 (FX rate: 0.85045) · My original memo"</small>
-      <% end %>
+  <div class="card mb-3 bg-light">
+    <div class="card-header">
+      <%= icon("fas", "exclamation-circle") %> Advanced features
     </div>
-    <div class="form-check">
-      <%= f.radio_button :memo_position, :right, class: "form-check-input", checked: @conversion.right_memo_position? %>
-      <%= f.label :memo_position_right, class: "form-check-label" do %>
-        Right <small class="text-muted">Example: "My original memo · US$-17.50 (FX rate: 0.85045)"</small>
-      <% end %>
+
+    <div class="card-body pb-0 small">
+      <div class="form-group">
+        <span class="form-check-label">Conversion memo position</span>
+        <div class="form-check">
+          <%= f.radio_button :memo_position, :left, class: "form-check-input", checked: @conversion.left_memo_position? %>
+          <%= f.label :memo_position_left, class: "form-check-label" do %>
+            Left <spam class="text-muted">Example: "US$-17.50 (FX rate: 0.85045) · My original memo"</span>
+          <% end %>
+        </div>
+        <div class="form-check">
+          <%= f.radio_button :memo_position, :right, class: "form-check-input", checked: @conversion.right_memo_position? %>
+          <%= f.label :memo_position_right, class: "form-check-label" do %>
+            Right <span class="text-muted">Example: "My original memo · US$-17.50 (FX rate: 0.85045)"</span>
+          <% end %>
+        </div>
+        <span class="form-text text-muted">
+          This annotation will be added to the original transaction memo.
+          Never delete the <code><%= CurrencyConverter::CONVERSION_PREFIX %></code> part as this is how we know that the transaction was already converted.
+        </span>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :offset, "Offset", class: "mb-0" %>
+        <div class="form-inline">
+          <span class="text-muted">Multiply original amount before conversion by </span>
+          <%= f.text_field :offset,
+          class: "form-control form-control-sm ml-2 mr-2",
+            value: number_with_precision(@conversion.offset, strip_insignificant_zeros: true, significant: true),
+            style: "width: 80px;" %>
+        </div>
+      </div>
     </div>
-    <small class="form-text text-muted">
-      This annotation will be added to the original transaction memo.
-      Never delete the <code><%= CurrencyConverter::CONVERSION_PREFIX %></code> part as this is how we know that the transaction was already converted.
-    </small>
   </div>
 
   <% if action_name.in?(["new", "create"]) %>
