@@ -1,17 +1,4 @@
-class Conversion < ApplicationRecord
-  has_many :syncs, dependent: :destroy
-  belongs_to :user
-
-  scope :active, -> { where(deleted_at: nil) }
-  scope :automatic, -> { where(sync_automatically: true) }
-  scope :syncable, -> { active.active.joins(:syncs).merge(Sync.confirmed).uniq }
-
-  validates :ynab_budget_id, presence: true
-  validates :ynab_account_id, presence: true
-  validates :cached_ynab_account_name, presence: true
-  validates :cached_ynab_budget_name, presence: true
-  validates :start_date, presence: true
-
+class Conversion < AddOn
   validates :from_currency, presence: true,
                             inclusion: {
                               in: ExchangeRate.currency_codes,
@@ -24,7 +11,6 @@ class Conversion < ApplicationRecord
                               message: '"%{value}" is not a supported currency'
                             }
 
-  validates :user, presence: true
   validate :distinct_currencies
   validate :base_ten_offset
 
@@ -32,10 +18,6 @@ class Conversion < ApplicationRecord
 
   def create_draft_sync
     syncs.create(transactions: pending_transactions)
-  end
-
-  def last_synced_at
-    syncs.confirmed.last&.created_at
   end
 
   def transactions_since_start_date
@@ -46,10 +28,6 @@ class Conversion < ApplicationRecord
 
   def pending_transactions
     CurrencyConverter.new(self).run
-  end
-
-  def ynab_account
-    user.ynab_user.budget(ynab_budget_id).account(ynab_account_id)
   end
 
   def distinct_currencies

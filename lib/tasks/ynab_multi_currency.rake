@@ -26,4 +26,11 @@ namespace :ynab_multi_currency do
     rates = Money.default_bank.update_rates
     puts "Fetched #{rates.count} rates"
   end
+
+  desc "Fill type in add_ons"
+  task fill_type_in_add_ons: :environment do
+    count = AddOn.count
+    AddOn.update_all(type: "Conversion")
+    puts "Added Conversion type to #{count} AddOns"
+  end
 end

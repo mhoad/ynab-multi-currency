@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_17_085418) do
+ActiveRecord::Schema.define(version: 2018_11_19_075635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "conversions", force: :cascade do |t|
+  create_table "add_ons", force: :cascade do |t|
     t.string "ynab_budget_id"
     t.string "ynab_account_id"
     t.string "cached_ynab_account_name"
@@ -31,7 +31,8 @@ ActiveRecord::Schema.define(version: 2018_11_17_085418) do
     t.date "start_date"
     t.integer "memo_position", default: 0
     t.float "offset"
-    t.index ["user_id"], name: "index_conversions_on_user_id"
+    t.string "type"
+    t.index ["user_id"], name: "index_add_ons_on_user_id"
   end
 
   create_table "exchange_rates", force: :cascade do |t|
@@ -43,12 +44,12 @@ ActiveRecord::Schema.define(version: 2018_11_17_085418) do
   end
 
   create_table "syncs", force: :cascade do |t|
-    t.bigint "conversion_id"
+    t.bigint "add_on_id"
     t.text "transactions"
     t.boolean "confirmed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["conversion_id"], name: "index_syncs_on_conversion_id"
+    t.index ["add_on_id"], name: "index_syncs_on_add_on_id"
   end
 
   create_table "users", force: :cascade do |t|
