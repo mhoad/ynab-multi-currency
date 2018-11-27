@@ -10,8 +10,13 @@ class ApplicationController < ActionController::Base
       yield
 
     rescue YNAB::ApiError => e
-      e.message == "Unauthorized" || raise
-      return redirect_to new_oauth_path
+      if e.message == "Unauthorized"
+        return redirect_to new_oauth_path
+      else
+        logger.fatal("#{e.code} | #{e.message} | #{e.name} | #{e.detail}")
+        logger.fatal(e.response_body)
+        raise
+      end
     end
   end
 end
