@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-  <% @conversions.each do |conversion| %>
+  <% @add_ons.each do |conversion| %>
     <div class="col-lg-4 col-md-6">
       <div class="card mb-4">
         <div class="card-body">
@@ -43,7 +43,7 @@
               <% end %>
             </div>
             <div class="col-auto">
-              <%= link_to("Convert now", new_conversion_sync_path(conversion), class: "btn btn-primary btn-sm float-right") %>
+              <%= link_to("Convert now", conversion_syncs_path(conversion), method: :post, class: "btn btn-primary btn-sm float-right") %>
             </div>
           </div>
         </div>

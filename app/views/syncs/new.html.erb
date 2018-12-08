@@ -25,4 +25,4 @@
   </tbody>
 </table>
 
-<%= link_to "Confirm conversion", conversion_syncs_path(@sync.conversion, params: { sync_id: @sync.id }), method: :post, class: "btn btn-primary" %>
+<%= link_to "Confirm conversion", conversion_sync_path(@sync.conversion, @sync, method: :put, class: "btn btn-primary" %>

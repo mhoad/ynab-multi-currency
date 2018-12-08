@@ -1,6 +1,6 @@
 class Sync < ApplicationRecord
   serialize :transactions, Array
-  belongs_to :conversion
+  belongs_to :add_on
 
   STALE_TIME = 1.hour.ago
 

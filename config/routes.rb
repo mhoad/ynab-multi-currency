@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get "privacy", to: "pages#privacy"
 
+  resources :add_ons, only: [:index, :destroy]
+
   resources :conversions, only: [:index, :new, :create, :edit, :update, :destroy] do
-    resources :syncs, only: [:new, :create]
+    resources :syncs, only: [:create, :edit, :update]
+  end
   end
 
   resources :oauth, only: [:index, :new]

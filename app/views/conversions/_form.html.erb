@@ -1,57 +1,30 @@
-<%= form_for @conversion, html: { class: "conversion-vue" } do |f| %>
-  <div class="form-group">
-    <%= f.label :ynab_account_id, "YNAB account" %>
-    <%= f.select :ynab_account_id, nil, { prompt: "Pick a YNAB account to convert" }, { class: "form-control", "v-on:change" => "setYnabHiddenFields" } do %>
-      <% @ynab_budgets.each do |budget| %>
-        <%= content_tag :optgroup, label: budget.name do %>
-          <% budget.accounts.each do |account| %>
-            <%= content_tag :option,
-                account.name,
-                value: account.id,
-                data: {
-                  budget_id: budget.id,
-                  account_name: account.name,
-                  budget_name: budget.name,
-                  to_currency: budget.currency_code },
-                ref: account.id,
-                selected: account.id == @conversion.ynab_account_id %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%= f.hidden_field :ynab_budget_id %>
-    <%= f.hidden_field :cached_ynab_account_name %>
-    <%= f.hidden_field :cached_ynab_budget_name %>
-  </div>
+<%= form_for @conversion, html: { "data-controller" => "currency-picker" } do |f| %>
+  <%= render partial: "add_ons/ynab_account_picker",
+    locals: {
+      f: f,
+      prompt: "Pick a YNAB account to convert",
+      add_on: @conversion
+    }
+  %>
 
   <div class="form-row">
     <div class="col">
       <div class="form-group">
         <%= f.label :from_currency, "Original account currency" %>
-        <%= f.select :from_currency, @currency_options, {}, { class: "form-control" } %>
+        <%= f.select :from_currency, currencies_iso_code_and_name, {}, { class: "form-control" } %>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <%= f.label :to_currency, "YNAB budget currency" %>
-        <%= f.text_field :to_currency, class: "form-control", readonly: true %>
+        <%= f.text_field :to_currency, class: "form-control", readonly: true, "data-target" => "currency-picker.toCurrency" %>
       </div>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :start_date, "Pick a sync start date" %>
-    <%= f.text_field :start_date,
-      value: @conversion.start_date&.strftime("%d/%m/%Y") || Date.current.strftime("%d/%m/%Y"),
-      class: "form-control datepicker" %>
-  </div>
+  <%= render partial: "add_ons/date_picker", locals: { f: f, add_on: @conversion } %>
 
-  <div class="form-group">
-    <div class="form-check">
-      <%= f.check_box :sync_automatically, class: "form-check-input" %>
-      <%= f.label :sync_automatically, "Convert automatically once a day", class: "form-check-label" %>
-    </div>
-  </div>
+  <%= render partial: "add_ons/auto_sync_checkbox", locals: { f: f } %>
 
   <div class="card mb-3 bg-light">
     <div class="card-header">
@@ -64,7 +37,7 @@
         <div class="form-check">
           <%= f.radio_button :memo_position, :left, class: "form-check-input", checked: @conversion.left_memo_position? %>
           <%= f.label :memo_position_left, class: "form-check-label" do %>
-            Left <spam class="text-muted">Example: "US$-17.50 (FX rate: 0.85045) · My original memo"</span>
+            Left <span class="text-muted">Example: "US$-17.50 (FX rate: 0.85045) · My original memo"</span>
           <% end %>
         </div>
         <div class="form-check">
@@ -101,6 +74,5 @@
 <% end %>
 
 <% content_for :head do %>
-  <%= javascript_pack_tag 'conversion_form', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'date_picker', 'data-turbolinks-track': 'reload' %>
+
 <% end %>

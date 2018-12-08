@@ -4,42 +4,39 @@ class SyncsController < ApplicationController
   before_action :authenticate_user!
   around_action :authorize_ynab!
 
-  def new
-    @sync = conversion.create_draft_sync
+  def create
+    sync = add_on.create_draft_sync
+    redirect_to(url_for([add_on, sync, only_path: true, action: :edit]))
+  end
+
+  def edit
+    @sync = add_on.syncs.find(params[:id])
+
+    if @sync.confirmed?
+      @sync = add_on.create_draft_sync
+    end
 
     if @sync.transactions.blank?
       @sync.confirm!
-
-      flash[:alert] = "No transactions found to convert"
-
-      redirect_to conversions_path
+      redirect_to conversions_path, alert: "No transactions found to convert"
     end
   end
 
-  def create
-    sync = conversion.syncs.find(params[:sync_id])
+  def update
+    sync = add_on.syncs.find(params[:sync_id])
 
     if sync.transactions.blank?
-      flash[:alert] = "Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again."
-      redirect_to new_conversion_sync_path(conversion)
+      sync = add_on.create_draft_sync
+      redirect_to url_for([add_on, sync, only_path: true, action: :edit]), alert: "Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again."
     else
       count = sync.confirm!
-      flash[:notice] = "Succesfully synced #{pluralize(count, "transaction")}"
-      redirect_to conversions_path
+      redirect_to url_for([add_on.class, only_path: true]), notice: "Succesfully synced #{pluralize(count, "transaction")}"
     end
   end
 
   private
 
-  def conversion
-    current_user.conversions.find(params[:conversion_id])
-  end
-
-  def since
-    if params[:since]
-      Date.parse(params[:since])
-    else
-      conversion.last_synced_at || raise("A date must me provided for the first sync")
-    end
+  def add_on
+    @add_on ||= current_user.add_ons.find(params[:conversion_id] || params[:bank_import_id])
   end
 end

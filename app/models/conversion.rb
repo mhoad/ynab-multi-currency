@@ -17,7 +17,7 @@ class Conversion < AddOn
   enum memo_position: [:left, :right], _suffix: true
 
   def create_draft_sync
-    syncs.create(transactions: pending_transactions)
+    syncs.create!(transactions: pending_transactions)
   end
 
   def transactions_since_start_date

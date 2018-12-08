@@ -1,0 +1,23 @@
+<div class="form-group" data-controller="account-picker">
+  <%= f.label :ynab_account_id, "YNAB account" %>
+  <%= f.select :ynab_account_id, nil, { prompt: prompt }, { class: "form-control", "data-action" => "account-picker#setHiddenFields currency-picker#setToCurrency", "data-target" => "account-picker.accounts currency-picker.accounts" } do %>
+    <% current_user_ynab_budgets.each do |budget| %>
+      <%= content_tag :optgroup, label: budget.name do %>
+        <% budget.accounts.each do |account| %>
+          <%= content_tag :option,
+              account.name,
+              value: account.id,
+              data: {
+                budget_id: budget.id,
+                account_name: account.name,
+                budget_name: budget.name,
+                to_currency: budget.currency_code },
+              selected: account.id == add_on.ynab_account_id %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.hidden_field :ynab_budget_id, "data-target" => "account-picker.budgetId" %>
+  <%= f.hidden_field :cached_ynab_budget_name, "data-target" => "account-picker.budgetName" %>
+  <%= f.hidden_field :cached_ynab_account_name, "data-target" => "account-picker.accountName" %>
+</div>

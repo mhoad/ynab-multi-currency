@@ -1,0 +1,10 @@
+<div class="form-group">
+  <%= f.label :start_date, "Pick a sync start date" %>
+  <%= f.text_field :start_date,
+    value: add_on.start_date&.strftime("%d/%m/%Y") || Date.current.strftime("%d/%m/%Y"),
+    class: "form-control datepicker" %>
+</div>
+
+<% content_for :head do %>
+  <%= javascript_pack_tag 'date_picker', 'data-turbolinks-track': 'reload' %>
+<% end %>

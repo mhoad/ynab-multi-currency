@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :conversions, dependent: :destroy
+  has_many :add_ons, dependent: :destroy
 
   def requires_ynab_authorization?
     ynab_access_token.blank? || !refresh_ynab_token_if_needed!
