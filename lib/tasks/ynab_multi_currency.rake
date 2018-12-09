@@ -5,7 +5,8 @@ namespace :ynab_multi_currency do
       user = conversion.user
 
       if user.refresh_ynab_token_if_needed!
-        count = CurrencyConverter.call(conversion).confirm!
+        sync = Conversions::Initializer.call(conversion)
+        count = Conversions::Finalizer.call(sync)
         puts "#{count} converted for conversion #{conversion.id}"
       else
         puts "Couldn't authenticate user #{user.id}"

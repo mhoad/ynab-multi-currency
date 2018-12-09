@@ -33,6 +33,6 @@ class ConversionsController < AddOnsController
   end
 
   def service
-    CurrencyConverter
+    Conversions
   end
 end

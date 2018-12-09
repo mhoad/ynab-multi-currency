@@ -56,7 +56,7 @@ RSpec.describe "Conversions", type: :request do
 
     context "when the user is authenticated" do
       before do
-        allow(CurrencyConverter).to receive(:call) do
+        allow(Conversions::Initializer).to receive(:call) do
           user.conversions.last.syncs.create
         end
 
@@ -208,7 +208,7 @@ RSpec.describe "Conversions", type: :request do
         sign_in(user)
         sync = conversion.syncs.create
 
-        allow(CurrencyConverter).to receive(:call) { sync }
+        allow(Conversions::Initializer).to receive(:call) { sync }
 
         post conversion_syncs_path(conversion)
 
@@ -242,12 +242,12 @@ RSpec.describe "Conversions", type: :request do
         let(:sync) { create(:conversion_sync, add_on: conversion, confirmed: true) }
 
         it "creates a new draft sync" do
-          allow(CurrencyConverter).to receive(:call) { create(:conversion_sync, add_on: conversion) }
+          allow(Conversions::Initializer).to receive(:call) { create(:conversion_sync, add_on: conversion) }
 
           sign_in(user)
           get edit_conversion_sync_path(conversion, sync)
 
-          expect(CurrencyConverter).to have_received(:call).with(conversion)
+          expect(Conversions::Initializer).to have_received(:call).with(conversion)
           expect(response).to have_http_status(200)
           expect(response).to render_template(:edit)
         end
@@ -257,8 +257,12 @@ RSpec.describe "Conversions", type: :request do
         let(:sync) { create(:conversion_sync, add_on: conversion, transactions: []) }
 
         it "redirects to the add_ons index" do
+          allow(Conversions::Finalizer).to receive(:call)
+
           sign_in(user)
           get edit_conversion_sync_path(conversion, sync)
+
+          expect(Conversions::Finalizer).to have_received(:call).with(sync)
           expect(response).to redirect_to(add_ons_path)
         end
       end
@@ -278,11 +282,12 @@ RSpec.describe "Conversions", type: :request do
 
     context "when the user is authenticated" do
       it "confirms the sync and redirects to the add_ons path" do
-        allow(sync).to receive(:confirm!)
+        allow(Conversions::Finalizer).to receive(:call)
 
+        sign_in(user)
         put conversion_sync_path(conversion, sync)
 
-        expect(sync).to have_received(:confirm!)
+        expect(Conversions::Finalizer).to have_received(:call).with(sync)
         expect(response).to redirect_to(add_ons_path)
       end
 
@@ -291,12 +296,12 @@ RSpec.describe "Conversions", type: :request do
         let(:new_sync) { create(:conversion_sync, add_on: conversion) }
 
         it "creates a new sync and redirects to the edit page" do
-          allow(CurrencyConverter).to receive(:call) { new_sync }
+          allow(Conversions::Initializer).to receive(:call) { new_sync }
 
           sign_in(user)
           put conversion_sync_path(conversion, sync)
 
-          expect(CurrencyConverter).to have_received(:call).with(conversion)
+          expect(Conversions::Initializer).to have_received(:call).with(conversion)
           expect(response).to redirect_to edit_conversion_sync_path(conversion, new_sync)
         end
       end
