@@ -1,9 +1,9 @@
-<%= form_for @conversion, html: { "data-controller" => "currency-picker" } do |f| %>
+<%= form_for @add_on, html: { "data-controller" => "currency-picker" } do |f| %>
   <%= render partial: "add_ons/ynab_account_picker",
     locals: {
       f: f,
       prompt: "Pick a YNAB account to convert",
-      add_on: @conversion
+      add_on: @add_on
     }
   %>
 
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <%= render partial: "add_ons/date_picker", locals: { f: f, add_on: @conversion } %>
+  <%= render partial: "add_ons/date_picker", locals: { f: f, add_on: @add_on } %>
 
   <%= render partial: "add_ons/auto_sync_checkbox", locals: { f: f } %>
 
@@ -35,13 +35,13 @@
       <div class="form-group">
         <span class="form-check-label">Conversion memo position</span>
         <div class="form-check">
-          <%= f.radio_button :memo_position, :left, class: "form-check-input", checked: @conversion.left_memo_position? %>
+          <%= f.radio_button :memo_position, :left, class: "form-check-input", checked: @add_on.left_memo_position? %>
           <%= f.label :memo_position_left, class: "form-check-label" do %>
             Left <span class="text-muted">Example: "US$-17.50 (FX rate: 0.85045) · My original memo"</span>
           <% end %>
         </div>
         <div class="form-check">
-          <%= f.radio_button :memo_position, :right, class: "form-check-input", checked: @conversion.right_memo_position? %>
+          <%= f.radio_button :memo_position, :right, class: "form-check-input", checked: @add_on.right_memo_position? %>
           <%= f.label :memo_position_right, class: "form-check-label" do %>
             Right <span class="text-muted">Example: "My original memo · US$-17.50 (FX rate: 0.85045)"</span>
           <% end %>
@@ -58,7 +58,7 @@
           <span class="text-muted">Multiply original amount before conversion by </span>
           <%= f.text_field :offset,
           class: "form-control form-control-sm ml-2 mr-2",
-            value: number_with_precision(@conversion.offset, strip_insignificant_zeros: true, significant: true),
+            value: number_with_precision(@add_on.offset, strip_insignificant_zeros: true, significant: true),
             style: "width: 80px;" %>
         </div>
       </div>

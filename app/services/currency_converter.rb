@@ -13,7 +13,17 @@ class CurrencyConverter
     @offset = conversion.offset || 1
   end
 
-  def run
+  def self.call(conversion)
+    new(conversion).call
+  end
+
+  def call
+    @conversion.syncs.create!(transactions: convert_transactions)
+  end
+
+  private
+
+  def convert_transactions
     @conversion.transactions_since_start_date.map do |transaction|
       if unconverted?(transaction) && not_skipped?(transaction) && without_subtransactions?(transaction)
         original_amount = Money.from_amount(transaction.amount.fdiv(1000), @from_currency) * @offset
@@ -23,8 +33,6 @@ class CurrencyConverter
       end
     end.compact
   end
-
-  private
 
   def unconverted?(transaction)
     supported_prefixes.none? do |prefix|

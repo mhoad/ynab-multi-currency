@@ -19,10 +19,10 @@
         <td><%= transaction.date %></td>
         <td><%= transaction.payee_name %></td>
         <td><%= transaction.memo %></td>
-        <td><%= format_ynab_amount(transaction.amount, @sync.conversion.to_currency) %></td>
+        <td><%= format_ynab_amount(transaction.amount, @sync.add_on.to_currency) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to "Confirm conversion", conversion_sync_path(@sync.conversion, @sync, method: :put, class: "btn btn-primary" %>
+<%= link_to "Confirm conversion", conversion_sync_path(@sync.add_on, @sync, method: :put, class: "btn btn-primary") %>

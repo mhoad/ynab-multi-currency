@@ -1,9 +1,9 @@
 <div class="col-md-6 offset-md-3">
   <h1>Modify your conversion setup</h1>
 
-  <% if @conversion.errors.any? %>
+  <% if @add_on.errors.any? %>
     <div class="alert alert-danger" role="alert">
-      <% @conversion.errors.full_messages.each do |msg| %>
+      <% @add_on.errors.full_messages.each do |msg| %>
         <div><%= msg %></div>
       <% end %>
     </div>

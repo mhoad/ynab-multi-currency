@@ -5,7 +5,7 @@ class SyncsController < ApplicationController
   around_action :authorize_ynab!
 
   def create
-    sync = add_on.create_draft_sync
+    sync = service.call(add_on)
     redirect_to(url_for([add_on, sync, only_path: true, action: :edit]))
   end
 
@@ -13,24 +13,24 @@ class SyncsController < ApplicationController
     @sync = add_on.syncs.find(params[:id])
 
     if @sync.confirmed?
-      @sync = add_on.create_draft_sync
+      @sync = service.call(add_on)
     end
 
     if @sync.transactions.blank?
       @sync.confirm!
-      redirect_to conversions_path, alert: "No transactions found to convert"
+      redirect_to add_ons_path, alert: "No transactions found to convert"
     end
   end
 
   def update
-    sync = add_on.syncs.find(params[:sync_id])
+    sync = add_on.syncs.find(params[:id])
 
     if sync.transactions.blank?
-      sync = add_on.create_draft_sync
+      sync = service.call(add_on)
       redirect_to url_for([add_on, sync, only_path: true, action: :edit]), alert: "Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again."
     else
       count = sync.confirm!
-      redirect_to url_for([add_on.class, only_path: true]), notice: "Succesfully synced #{pluralize(count, "transaction")}"
+      redirect_to add_ons_path, notice: "Succesfully synced #{pluralize(count, "transaction")}"
     end
   end
 
@@ -38,5 +38,11 @@ class SyncsController < ApplicationController
 
   def add_on
     @add_on ||= current_user.add_ons.find(params[:conversion_id] || params[:bank_import_id])
+  end
+
+  def service
+    if add_on.is_a?(Conversion)
+      CurrencyConverter
+    end
   end
 end

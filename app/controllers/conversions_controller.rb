@@ -4,11 +4,11 @@ class ConversionsController < AddOnsController
   end
 
   def new
-    @conversion = Conversion.new
+    @add_on = Conversion.new
   end
 
   def edit
-    @conversion = current_user.conversions.active.find(params[:id])
+    @add_on = current_user.conversions.active.find(params[:id])
   end
 
   private
@@ -30,5 +30,9 @@ class ConversionsController < AddOnsController
       ).merge(
         type: "Conversion"
       )
+  end
+
+  def service
+    CurrencyConverter
   end
 end

@@ -58,4 +58,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :view
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
+  config.include FactoryBot::Syntax::Methods
+
+  config.before(:suite) do
+    ExchangeRate.add_rate("USD", "EUR", 0.5)
+    ExchangeRate.add_rate("EUR", "USD", 0.1)
+  end
 end

@@ -16,19 +16,11 @@ class Conversion < AddOn
 
   enum memo_position: [:left, :right], _suffix: true
 
-  def create_draft_sync
-    syncs.create!(transactions: pending_transactions)
-  end
-
   def transactions_since_start_date
     ynab_account.transactions(since: start_date)
   end
 
   private
-
-  def pending_transactions
-    CurrencyConverter.new(self).run
-  end
 
   def distinct_currencies
     if from_currency == to_currency

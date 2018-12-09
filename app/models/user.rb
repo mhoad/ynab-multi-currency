@@ -11,6 +11,10 @@ class User < ApplicationRecord
     ynab_access_token.blank? || !refresh_ynab_token_if_needed!
   end
 
+  def ynab_budgets
+    ynab_user.budgets
+  end
+
   def ynab_user
     Ynaby::User.new(ynab_access_token)
   end
