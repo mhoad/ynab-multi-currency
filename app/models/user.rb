@@ -6,17 +6,10 @@ class User < ApplicationRecord
 
   has_many :conversions, dependent: :destroy
   has_many :add_ons, dependent: :destroy
+  has_many :bank_imports, dependent: :destroy
 
   def requires_ynab_authorization?
     ynab_access_token.blank? || !refresh_ynab_token_if_needed!
-  end
-
-  def ynab_budgets
-    ynab_user.budgets
-  end
-
-  def ynab_user
-    Ynaby::User.new(ynab_access_token)
   end
 
   def refresh_ynab_token_if_needed!

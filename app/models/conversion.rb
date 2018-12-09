@@ -16,10 +16,6 @@ class Conversion < AddOn
 
   enum memo_position: [:left, :right], _suffix: true
 
-  def transactions_since_start_date
-    ynab_account.transactions(since: start_date)
-  end
-
   private
 
   def distinct_currencies

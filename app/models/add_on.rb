@@ -16,10 +16,4 @@ class AddOn < ApplicationRecord
   def last_synced_at
     syncs.confirmed.last&.created_at
   end
-
-  private
-
-  def ynab_account
-    user.ynab_user.budget(ynab_budget_id).account(ynab_account_id)
-  end
 end

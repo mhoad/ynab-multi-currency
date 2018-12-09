@@ -10,7 +10,7 @@ class AddOnsController < ApplicationController
     @add_on = current_user.add_ons.new(add_on_params)
 
     if @add_on.save
-      sync = service.call(@add_on)
+      sync = service::Initializer.call(@add_on)
       redirect_to url_for([@add_on, sync, action: :edit, only_path: true])
     else
       render :edit

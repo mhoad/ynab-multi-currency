@@ -1,7 +1,7 @@
 <div class="form-group" data-controller="account-picker">
   <%= f.label :ynab_account_id, "YNAB account" %>
   <%= f.select :ynab_account_id, nil, { prompt: prompt }, { class: "form-control", "data-action" => "account-picker#setHiddenFields currency-picker#setToCurrency", "data-target" => "account-picker.accounts currency-picker.accounts" } do %>
-    <% current_user.ynab_budgets.each do |budget| %>
+    <% ynab_budgets.each do |budget| %>
       <%= content_tag :optgroup, label: budget.name do %>
         <% budget.accounts.each do |account| %>
           <%= content_tag :option,

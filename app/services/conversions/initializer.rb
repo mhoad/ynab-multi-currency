@@ -25,7 +25,7 @@ module Conversions
     private
 
     def convert_transactions
-      @conversion.transactions_since_start_date.map do |transaction|
+      transactions_since_start_date.map do |transaction|
         if unconverted?(transaction) && not_skipped?(transaction) && without_subtransactions?(transaction)
           original_amount = Money.from_amount(transaction.amount.fdiv(1000), @from_currency) * @offset
           transaction.amount = convert(original_amount)
@@ -33,6 +33,15 @@ module Conversions
           transaction
         end
       end.compact
+    end
+
+    def transactions_since_start_date
+      adapter = YnabAdapter.new(@conversion.user)
+      account = adapter.account(
+        budget_id: @conversion.ynab_budget_id,
+        account_id: @conversion.ynab_account_id
+      )
+      adapter.transactions_since(date: @conversion.start_date, account: account)
     end
 
     def unconverted?(transaction)
