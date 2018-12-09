@@ -22,6 +22,6 @@ class YnabAdapter
   private
 
   def ynab_user
-    Ynaby::User.new(current_user.ynab_access_token)
+    Ynaby::User.new(@current_user.ynab_access_token)
   end
 end
