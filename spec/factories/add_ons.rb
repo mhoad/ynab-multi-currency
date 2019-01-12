@@ -8,10 +8,9 @@ FactoryBot.define do
     memo_position { "left" }
     user
 
-    factory :conversion do
+    factory :conversion, class: "Conversion" do
       from_currency { "USD" }
       to_currency { "EUR" }
-      type { "Conversion" }
     end
   end
 end
