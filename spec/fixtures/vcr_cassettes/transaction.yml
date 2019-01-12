@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.youneedabudget.com/v1/budgets/da64e638-63f0-41fc-97a2-cc7f38c8b034/transactions/1ca525cb-4462-4687-adab-37796f3fd629
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - api_client/ruby/1.6.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      Authorization:
+      - "<API_TOKEN>"
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Sat, 27 Oct 2018 11:41:21 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Rate-Limit:
+      - 12/200
+      Vary:
+      - Accept-Encoding, Origin
+      Etag:
+      - W/"11ca638e728b29f1a9b2fc4e0991c620"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - '045796de-339c-4c1f-a07f-ae1f8b458260'
+      X-Runtime:
+      - '0.037093'
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"transaction_ids":["1ca525cb-4462-4687-adab-37796f3fd629"],"transaction":{"id":"1ca525cb-4462-4687-adab-37796f3fd629","date":"2018-09-28","amount":-100000,"memo":"Food","cleared":"cleared","approved":true,"flag_color":null,"account_id":"c791437c-6660-4e86-b41e-50e70e6ff34d","account_name":"My
+        Checking Account","payee_id":"dd836216-66a4-45e0-b63b-dc3df0baed86","payee_name":"Supermarket","category_id":"ee5a8690-45e6-49d3-af51-72ea104389e3","category_name":"Groceries","transfer_account_id":null,"transfer_transaction_id":null,"import_id":null,"deleted":false,"subtransactions":[]}}}'
+    http_version: 
+  recorded_at: Sat, 27 Oct 2018 11:41:34 GMT
+recorded_with: VCR 4.0.0

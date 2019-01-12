@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.youneedabudget.com/v1/budgets/da64e638-63f0-41fc-97a2-cc7f38c8b034/accounts/c791437c-6660-4e86-b41e-50e70e6ff34d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - api_client/ruby/1.6.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      Authorization:
+      - "<API_TOKEN>"
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Sat, 27 Oct 2018 11:41:20 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Rate-Limit:
+      - 5/200
+      Vary:
+      - Accept-Encoding, Origin
+      Etag:
+      - W/"46b660ffd2bff3bf7fe4467fa5a703ba"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - a3878fe4-0cbe-4095-8bc3-8e89dc12897b
+      X-Runtime:
+      - '0.032937'
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"account":{"id":"c791437c-6660-4e86-b41e-50e70e6ff34d","name":"My
+        Checking Account","type":"checking","on_budget":true,"closed":false,"note":"Yada,
+        yada","balance":400000,"cleared_balance":-600000,"uncleared_balance":1000000,"transfer_payee_id":"f808ff21-ebe2-42c6-ae8d-5375cf1f8c3f","deleted":false}}}'
+    http_version: 
+  recorded_at: Sat, 27 Oct 2018 11:41:33 GMT
+recorded_with: VCR 4.0.0

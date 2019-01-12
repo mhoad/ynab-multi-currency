@@ -35,7 +35,6 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'ynaby'
 gem 'pry'
 gem 'money-open-exchange-rates'
 gem 'devise'
@@ -45,6 +44,7 @@ gem 'sendgrid-ruby'
 gem 'rollbar'
 gem 'rack-host-redirect'
 gem 'gibbon'
+gem 'ynab'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -55,6 +55,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
+  gem 'vcr'
   gem 'webmock'
 end
 

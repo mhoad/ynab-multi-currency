@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.youneedabudget.com/v1/budgets
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - api_client/ruby/1.6.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      Authorization:
+      - "<API_TOKEN>"
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Sat, 27 Oct 2018 11:41:19 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Rate-Limit:
+      - 4/200
+      Vary:
+      - Accept-Encoding, Origin
+      Etag:
+      - W/"968655192ffbef25aea166399a81cedb"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 910df783-01ad-4256-85f8-6440c47161c5
+      X-Runtime:
+      - '0.033294'
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"budgets":[{"id":"da64e638-63f0-41fc-97a2-cc7f38c8b034","name":"Ynaby
+        budget","last_modified_on":"2018-09-30T17:42:38+00:00","first_month":"2018-09-01","last_month":"2018-09-01","date_format":{"format":"DD/MM/YYYY"},"currency_format":{"iso_code":"EUR","example_format":"123 456,78","decimal_digits":2,"decimal_separator":",","symbol_first":false,"group_separator":" ","currency_symbol":"€","display_symbol":true}}]}}'
+    http_version: 
+  recorded_at: Sat, 27 Oct 2018 11:41:33 GMT
+recorded_with: VCR 4.0.0

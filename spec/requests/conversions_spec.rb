@@ -2,12 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "Conversions", type: :request do
   let(:user) { create(:user) }
-  let(:adapter) { instance_double("YnabAdapter", budgets: [budget]) }
-  let(:budget) { build(:ynab_budget) }
 
   before do
-    allow(YnabAdapter).to receive(:new) { adapter }
-    allow(budget).to receive(:accounts) { [build(:ynab_account)] }
+    allow(BudgetsAndAccountsFetcher).to receive(:call) { [build(:budget)] }
   end
 
   describe "GET /conversions" do

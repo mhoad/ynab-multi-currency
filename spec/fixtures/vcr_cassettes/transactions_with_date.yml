@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.youneedabudget.com/v1/budgets/da64e638-63f0-41fc-97a2-cc7f38c8b034/accounts/c791437c-6660-4e86-b41e-50e70e6ff34d/transactions?since_date=2018-09-28
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - api_client/ruby/1.6.0
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+      Authorization:
+      - "<API_TOKEN>"
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Sat, 27 Oct 2018 11:41:20 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Rate-Limit:
+      - 7/200
+      Vary:
+      - Accept-Encoding, Origin
+      Etag:
+      - W/"db0d235e1b9ed2bdf4371de09783dcf5"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - ea929ba3-fa1c-44ec-8917-0443c6c889b3
+      X-Runtime:
+      - '0.045378'
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":{"transactions":[{"id":"1ca525cb-4462-4687-adab-37796f3fd629","date":"2018-09-28","amount":-100000,"memo":"Food","cleared":"cleared","approved":true,"flag_color":null,"account_id":"c791437c-6660-4e86-b41e-50e70e6ff34d","account_name":"My
+        Checking Account","payee_id":"dd836216-66a4-45e0-b63b-dc3df0baed86","payee_name":"Supermarket","category_id":"ee5a8690-45e6-49d3-af51-72ea104389e3","category_name":"Groceries","transfer_account_id":null,"transfer_transaction_id":null,"import_id":null,"deleted":false,"subtransactions":[]},{"id":"e97cacbb-eb62-42dc-b0c6-5282613d96b0","date":"2018-09-30","amount":1000000,"memo":"","cleared":"uncleared","approved":true,"flag_color":null,"account_id":"c791437c-6660-4e86-b41e-50e70e6ff34d","account_name":"My
+        Checking Account","payee_id":"e770a56f-25b7-4f69-a7b5-a17933a457d4","payee_name":"Employer","category_id":"cf5ce0cc-7a67-4af2-8819-d426ab0335dc","category_name":"Immediate
+        Income SubCategory","transfer_account_id":null,"transfer_transaction_id":null,"import_id":null,"deleted":false,"subtransactions":[]}],"server_knowledge":146}}'
+    http_version: 
+  recorded_at: Sat, 27 Oct 2018 11:41:33 GMT
+recorded_with: VCR 4.0.0

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :ynab_account, class: Ynaby::Account do
+  factory :account do
     id { "123" }
     name { "Checking account" }
     type { "checking" }
@@ -9,8 +9,7 @@ FactoryBot.define do
     balance { 0.0 }
     cleared_balance { 0.0 }
     uncleared_balance { 0.0 }
-    budget { build(:ynab_budget) }
-  end
 
-  initialize_with { new(attributes) }
+    initialize_with { new(YNAB::Account.new(attributes)) }
+  end
 end

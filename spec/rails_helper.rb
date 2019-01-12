@@ -70,3 +70,28 @@ RSpec.configure do |config|
     ExchangeRate.add_rate("EUR", "USD", 0.1)
   end
 end
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+
+  config.before_record do |i|
+    i.response.body.force_encoding('UTF-8')
+  end
+
+  config.filter_sensitive_data('<API_TOKEN>') do |interaction|
+    interaction.request.headers['Authorization'].first
+  end
+
+  config.before_record do |interaction|
+    body = JSON.parse(interaction.response.body)
+    budgets = body.dig("data", "budgets")
+
+    if budgets
+      test_budgets = budgets.select { |budget| budget["name"] == "Ynaby budget" }
+      body["data"]["budgets"] = test_budgets
+      interaction.response.body = body.to_json
+    end
+  end
+end
