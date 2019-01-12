@@ -5,10 +5,12 @@ class ConversionsController < AddOnsController
 
   def new
     @add_on = Conversion.new
+    @accounts_by_budget = accounts_by_budget
   end
 
   def edit
     @add_on = current_user.conversions.active.find(params[:id])
+    @accounts_by_budget = accounts_by_budget
   end
 
   private

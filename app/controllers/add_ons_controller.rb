@@ -13,6 +13,7 @@ class AddOnsController < ApplicationController
       sync = service::Initializer.call(@add_on)
       redirect_to url_for([@add_on, sync, action: :edit, only_path: true])
     else
+      @accounts_by_budget = accounts_by_budget
       render :edit
     end
   end
@@ -23,6 +24,7 @@ class AddOnsController < ApplicationController
     if @add_on.update(add_on_params)
       redirect_to add_ons_path, notice: "Your #{@add_on.model_name.human.downcase} has been updated."
     else
+      @accounts_by_budget = accounts_by_budget
       render :edit
     end
   end
@@ -31,5 +33,11 @@ class AddOnsController < ApplicationController
     add_on = current_user.add_ons.find(params[:id])
     add_on.update(deleted_at: Time.current)
     redirect_to add_ons_path, notice: "Your #{add_on.model_name.human.downcase} has been deleted."
+  end
+
+  private
+
+  def accounts_by_budget
+    BudgetsAndAccountsFetcher.call(current_user)
   end
 end
