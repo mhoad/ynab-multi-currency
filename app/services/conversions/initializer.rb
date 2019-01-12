@@ -37,11 +37,11 @@ module Conversions
 
     def transactions_since_start_date
       adapter = YnabAdapter.new(@conversion.user)
-      account = adapter.account(
+      adapter.transactions(
+        since: @conversion.start_date,
         budget_id: @conversion.ynab_budget_id,
         account_id: @conversion.ynab_account_id
       )
-      adapter.transactions_since(date: @conversion.start_date, account: account)
     end
 
     def unconverted?(transaction)
