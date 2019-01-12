@@ -3,20 +3,20 @@ require 'rails_helper'
 describe BudgetsAndAccountsFetcher do
   describe ".call" do
     let(:user) { create(:user) }
-    let(:raw_budget) { YNAB::BudgetSummary.new(id: "1234") }
-    let(:raw_account) { YNAB::Account }
+    let(:budget) { build(:budget, id: "1234") }
+    let(:account) { build(:account) }
     let(:adapter) { instance_double("YnabAdapter") }
 
-    it "returns anr array with the budgets" do
+    it "returns anr array with the budgets and accounts" do
       allow(YnabAdapter).to receive(:new).with(user) { adapter }
-      allow(adapter).to receive(:budgets) { [raw_budget] }
-      allow(adapter).to receive(:accounts).with("1234") { [raw_account] }
+      allow(adapter).to receive(:budgets) { [budget] }
+      allow(adapter).to receive(:accounts).with("1234") { [account] }
 
-      budget = described_class.call(user).first
+      response_budget = described_class.call(user).first
 
-      expect(budget).to be_a(Budget)
-      expect(budget.id).to eq("1234")
-      expect(budget.accounts).to eq([raw_account])
+      expect(response_budget).to be_a(Budget)
+      expect(response_budget.id).to eq("1234")
+      expect(response_budget.accounts).to eq([account])
     end
   end
 end

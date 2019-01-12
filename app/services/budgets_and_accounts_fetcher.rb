@@ -8,8 +8,9 @@ class BudgetsAndAccountsFetcher
   end
 
   def call
-    ynab_adapter.budgets.map do |raw_budget|
-      Budget.new(raw_budget, accounts: ynab_adapter.accounts(raw_budget.id))
+    ynab_adapter.budgets.map do |budget|
+      budget.accounts = ynab_adapter.accounts(budget.id)
+      budget
     end
   end
 
