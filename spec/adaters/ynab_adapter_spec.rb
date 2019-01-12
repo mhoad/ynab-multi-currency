@@ -4,6 +4,7 @@ BUDGET_ID = "da64e638-63f0-41fc-97a2-cc7f38c8b034"
 ACCOUNT_ID = "c791437c-6660-4e86-b41e-50e70e6ff34d"
 ACCOUNT_FOR_UPLOAD_ID = "eccab6f8-2d96-47b2-a19c-4c996a46ae65"
 TRANSACTION_ID = "1ca525cb-4462-4687-adab-37796f3fd629"
+TRANSACTION_WITH_SUB_ID = "ba338518-ff23-4e1b-98ca-dffb1253d3d5"
 
 describe YnabAdapter do
   subject { described_class.new(double(:user, ynab_access_token: Rails.application.credentials.ynab_api_key)) }
@@ -90,6 +91,24 @@ describe YnabAdapter do
 
           expect(transactions.count).to eq(6)
         end
+      end
+    end
+
+    it "includes subtransactions" do
+      VCR.use_cassette("transactions_without_date") do
+        subtransaction = subject
+          .transactions(budget_id: BUDGET_ID,account_id: ACCOUNT_ID)
+          .find { |transaction| transaction.id == TRANSACTION_WITH_SUB_ID }
+          .subtransactions
+          .first
+
+        expect(subtransaction).to be_a(YNAB::SubTransaction)
+        expect(subtransaction.id).to eq("4e128ac6-0f0b-471b-89f0-834cedeab68d")
+        expect(subtransaction.transaction_id).to eq("ba338518-ff23-4e1b-98ca-dffb1253d3d5")
+        expect(subtransaction.amount).to eq(-30000)
+        expect(subtransaction.memo).to eq("")
+        expect(subtransaction.category_id).to eq("e08f74df-cc46-4183-92a0-069cb76a1f22")
+        expect(subtransaction.deleted).to eq(false)
       end
     end
   end

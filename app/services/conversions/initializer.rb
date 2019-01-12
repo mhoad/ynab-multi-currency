@@ -84,7 +84,7 @@ module Conversions
     end
 
     def conversion_text(original_amount, separator)
-      memo = "#{original_amount.format(disambiguate: true)} (#{CONVERSION_PREFIX}: #{cx_rate}) "
+      memo = "#{original_amount.format(disambiguate: true)} (#{CONVERSION_PREFIX}: #{cx_rate})"
 
       if separator
         " · ".send(memo_position_method_name, memo)
@@ -101,5 +101,5 @@ module Conversions
         strip_insignificant_zeros: true
       )
     end
-end
+  end
 end
