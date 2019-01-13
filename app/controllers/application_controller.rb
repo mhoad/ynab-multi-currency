@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   def authorize_ynab!
     begin
-      if current_user.requires_ynab_authorization?
+      if Oauth.new(current_user).requires_authorization?
         return redirect_to new_oauth_path
       end
 

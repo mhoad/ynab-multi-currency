@@ -8,18 +8,6 @@ class User < ApplicationRecord
   has_many :add_ons, dependent: :destroy
   has_many :bank_imports, dependent: :destroy
 
-  def requires_ynab_authorization?
-    ynab_access_token.blank? || !refresh_ynab_token_if_needed!
-  end
-
-  def refresh_ynab_token_if_needed!
-    if ynab_expires_at&.past?
-      !!Oauth.new(self).refresh!
-    else
-      true
-    end
-  end
-
   def subscribe_to_newsletter!
     if Rails.env.production?
       mailchimp_api_key = Rails.application.credentials.mailchimp_api_key

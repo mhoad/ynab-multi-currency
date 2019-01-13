@@ -12,5 +12,14 @@ FactoryBot.define do
       from_currency { "USD" }
       to_currency { "EUR" }
     end
+
+    trait :syncable do
+      sync_automatically { true }
+      syncs { [build(:conversion_sync, confirmed: true)] }
+    end
+
+    trait :deleted do
+      deleted_at { 1.day.ago }
+    end
   end
 end

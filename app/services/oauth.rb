@@ -21,6 +21,20 @@ class Oauth
     )
   end
 
+  def requires_authorization?
+    @user.ynab_access_token.blank? || !refresh_token_if_needed!
+  end
+
+  def refresh_token_if_needed!
+    if @user.ynab_expires_at&.past?
+      !!refresh!
+    else
+      true
+    end
+  end
+
+  private
+
   def refresh!
     response = HTTParty.post(refresh_url).parsed_response
 
@@ -33,8 +47,6 @@ class Oauth
       )
     end
   end
-
-  private
 
   def token_url(code)
     "https://app.youneedabudget.com/oauth/token" \

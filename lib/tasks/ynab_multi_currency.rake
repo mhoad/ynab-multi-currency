@@ -1,19 +1,7 @@
 namespace :ynab_multi_currency do
   desc "Converts transactions and uploads them to YNAB"
   task sync_accounts: :environment do
-    Conversion.syncable.each do |conversion|
-      user = conversion.user
-
-      if user.refresh_ynab_token_if_needed!
-        sync = Conversions::Initializer.call(conversion)
-        count = Conversions::Finalizer.call(sync)
-        puts "#{count} converted for conversion #{conversion.id}"
-      else
-        puts "Couldn't authenticate user #{user.id}"
-      end
-    rescue
-      puts "Conversion #{conversion.id} failed"
-    end
+    Conversions::AutomaticSynchronizer.call
   end
 
   desc "Deletes stale transactions from unconfirmed syncs"
