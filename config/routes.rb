@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   resources :conversions, only: [:index, :new, :create, :edit, :update, :destroy] do
     resources :syncs, only: [:create, :edit, :update]
   end
-  end
 
   resources :oauth, only: [:index, :new]
 end
