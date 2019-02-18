@@ -68,13 +68,6 @@ describe Conversions::AutomaticSynchronizer do
       expect(Conversions::Initializer).to_not have_received(:call).with(unsynced_conversion)
     end
 
-    it "logs the transaction counts" do
-      expect(Rollbar).to receive(:info).with(/Finalizing sync \d+/, sync_id: sync.id, transactions_count: 1)
-      expect(Rollbar).to receive(:info).with(/Finalized sync \d+/, sync_id: sync.id, transactions_count: 1)
-
-      subject
-    end
-
     context "when there's an error" do
       it "rescues and logs the error" do
         error = StandardError.new("Something is wrong")
