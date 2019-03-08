@@ -13,7 +13,9 @@ namespace :ynab_multi_currency do
   desc "Download exchange rates"
   task fetch_exchange_rates: :environment do
     rates = Money.default_bank.update_rates
+    destroyed_rates_count = ExchangeRate.where("updated_at < ?", 1.day.ago).delete_all
     puts "Fetched #{rates.count} rates"
+    puts "Deleted #{destroyed_rates_count} old rates"
   end
 
   desc "Fill type in add_ons"
