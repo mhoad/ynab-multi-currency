@@ -28,7 +28,8 @@ class ConversionsController < AddOnsController
         :sync_automatically,
         :start_date,
         :memo_position,
-        :offset
+        :offset,
+        :custom_fx_rate
       ).merge(
         type: "Conversion"
       )

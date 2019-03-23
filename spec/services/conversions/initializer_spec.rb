@@ -9,7 +9,8 @@ describe Conversions::Initializer do
         :conversion,
         start_date: Date.new(2019, 1, 10),
         memo_position: memo_position,
-        offset: offset
+        offset: offset,
+        custom_fx_rate: custom_fx_rate
       )
     end
 
@@ -19,6 +20,7 @@ describe Conversions::Initializer do
     let(:memo) { "Food" }
     let(:memo_position) { "left" }
     let(:offset) { nil }
+    let(:custom_fx_rate) { nil }
 
     before(:all) do
       ExchangeRate.add_rate("USD", "EUR", 0.5)
@@ -125,6 +127,14 @@ describe Conversions::Initializer do
 
       it "skips the conversion" do
         expect(subject.transactions).to eq([])
+      end
+    end
+
+    context "when there's a custom fx rate" do
+      let(:custom_fx_rate) { 0.8 }
+
+      it "converts transactions using the custom fx rate" do
+        expect(subject.transactions.first.amount).to eq(-80000)
       end
     end
   end

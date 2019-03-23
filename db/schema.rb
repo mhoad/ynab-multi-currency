@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_19_075635) do
+ActiveRecord::Schema.define(version: 2019_03_23_145956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2018_11_19_075635) do
     t.integer "memo_position", default: 0
     t.float "offset"
     t.string "type"
+    t.float "custom_fx_rate"
     t.index ["user_id"], name: "index_add_ons_on_user_id"
   end
 

@@ -12,6 +12,7 @@ module Conversions
       @to_currency = conversion.to_currency
       @memo_position = conversion.memo_position || "left"
       @offset = conversion.offset || 1
+      @custom_fx_rate = conversion.custom_fx_rate
     end
 
     def self.call(conversion)
@@ -64,7 +65,7 @@ module Conversions
     end
 
     def convert(amount)
-      (amount.exchange_to(@to_currency) * 1000).to_i
+      (bank.exchange_with(amount, @to_currency) * 1000).to_i
     end
 
     def update_memo(old_memo, original_amount)
@@ -95,11 +96,21 @@ module Conversions
 
     def cx_rate
       @cx_rate ||= number_with_precision(
-        Money.default_bank.get_rate(@from_currency, @to_currency),
+        @bank.get_rate(@from_currency, @to_currency),
         precision: 5,
         significant: true,
         strip_insignificant_zeros: true
       )
+    end
+
+    def bank
+      @bank ||= if @custom_fx_rate
+        bank = Money::Bank::VariableExchange.new
+        bank.add_rate(@from_currency, @to_currency, @custom_fx_rate)
+        bank
+      else
+        Money.default_bank
+      end
     end
   end
 end
