@@ -39,7 +39,7 @@
               <% if conversion.last_synced_at %>
                 <small class="text-muted">Last conversion <%= time_ago_in_words(conversion.last_synced_at) %> ago</small>
               <% else %>
-                <small class="text-warning"><%= icon('fas', 'exclamation-triangle') %> Not converted yet</small>
+                <small class="text-muted">Not converted yet</small>
               <% end %>
             </div>
             <div class="col-auto">

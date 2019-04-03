@@ -11,7 +11,12 @@ class AddOnsController < ApplicationController
 
     if @add_on.save
       sync = service::Initializer.call(@add_on)
-      redirect_to url_for([@add_on, sync, action: :edit, only_path: true])
+
+      if sync
+        redirect_to url_for([@add_on, sync, action: :edit, only_path: true])
+      else
+        redirect_to add_ons_path, alert: "No transactions found to convert"
+      end
     else
       @accounts_by_budget = accounts_by_budget
       render :edit

@@ -4,15 +4,10 @@ describe Conversions::AutomaticSynchronizer do
   describe ".call" do
     subject { described_class.call }
 
-    let!(:conversion) { create(:conversion, :syncable) }
-    let!(:deleted_conversion) { create(:conversion, :syncable, :deleted) }
-    let!(:non_auto_conversion) { create(:conversion, :syncable, sync_automatically: false) }
-    let!(:unsynced_conversion) { create(:conversion, :syncable, syncs: []) }
-
+    let!(:conversion) { create(:conversion) }
     let(:oauth) { double(:oauth, refresh_token_if_needed!: oauth_result) }
     let(:oauth_result) { true }
-
-    let(:sync) { create(:conversion_sync) }
+    let(:sync) { create(:conversion_sync, add_on: conversion) }
 
     before do
       allow(Oauth).to receive(:new).with(conversion.user) { oauth }
@@ -50,22 +45,24 @@ describe Conversions::AutomaticSynchronizer do
       expect(Conversions::Finalizer).to have_received(:call).with(sync)
     end
 
-    it "excludes deleted conversions" do
-      subject
+    context "when the conversion is deleted" do
+      let(:conversion) { create(:conversion, :deleted) }
 
-      expect(Conversions::Initializer).to_not have_received(:call).with(deleted_conversion)
+      it "excludes deleted conversions" do
+        subject
+
+        expect(Conversions::Initializer).to_not have_received(:call).with(conversion)
+      end
     end
 
-    it "excludes non-automatic conversions" do
-      subject
+    context "when the conversion is not automatic" do
+      let(:conversion) { create(:conversion, sync_automatically: false) }
 
-      expect(Conversions::Initializer).to_not have_received(:call).with(non_auto_conversion)
-    end
+      it "excludes non-automatic conversions" do
+        subject
 
-    it "excludes conversions that have never been synced" do
-      subject
-
-      expect(Conversions::Initializer).to_not have_received(:call).with(unsynced_conversion)
+        expect(Conversions::Initializer).to_not have_received(:call).with(conversion)
+      end
     end
 
     context "when there's an error" do
@@ -76,6 +73,18 @@ describe Conversions::AutomaticSynchronizer do
         expect(Rollbar).to receive(:error).with(error, /Automatic conversion \d+ failed/)
 
         subject
+      end
+    end
+
+    context "when there is nothing to convert" do
+      let(:sync) { nil }
+
+      it "does not call the finalizer" do
+        conversion
+
+        subject
+
+        expect(Conversions::Finalizer).to_not have_received(:call)
       end
     end
   end

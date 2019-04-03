@@ -54,12 +54,11 @@ RSpec.describe "Conversions", type: :request do
 
     context "when the user is authenticated" do
       before do
-        allow(Conversions::Initializer).to receive(:call) do
-          user.conversions.last.syncs.create
-        end
-
+        allow(Conversions::Initializer).to receive(:call) { sync }
         sign_in(user)
       end
+
+      let(:sync) { user.conversions.last.syncs.create }
 
       context "when the conversion is valid" do
         before do
@@ -96,6 +95,15 @@ RSpec.describe "Conversions", type: :request do
 
         it "redirects to the sync confirmation page" do
           expect(response).to redirect_to(edit_conversion_sync_path(Conversion.last, Sync.last))
+        end
+
+        context "when there is nothing to convert" do
+          let(:sync) { nil }
+
+          it "redirects to the add_ons index" do
+            expect(response).to redirect_to(add_ons_path)
+            expect(flash[:alert]).to eq("No transactions found to convert")
+          end
         end
       end
 
@@ -202,15 +210,27 @@ RSpec.describe "Conversions", type: :request do
     end
 
     context "when the user is authenticated" do
+        before do
+          sign_in(user)
+          allow(Conversions::Initializer).to receive(:call) { sync }
+        end
+        let(:sync) { conversion.syncs.create }
+
       it "creates a sync" do
-        sign_in(user)
-        sync = conversion.syncs.create
-
-        allow(Conversions::Initializer).to receive(:call) { sync }
-
         post conversion_syncs_path(conversion)
 
         expect(response).to redirect_to(edit_conversion_sync_path(conversion, sync))
+      end
+
+      context "when there is nothing to convert" do
+        let(:sync) { nil }
+
+        it "redirects to the add_on index" do
+          post conversion_syncs_path(conversion)
+
+          expect(response).to redirect_to(add_ons_path)
+          expect(flash[:alert]).to eq("No transactions found to convert")
+        end
       end
     end
   end
@@ -249,19 +269,17 @@ RSpec.describe "Conversions", type: :request do
           expect(response).to have_http_status(200)
           expect(response).to render_template(:edit)
         end
-      end
 
-      context "when there are no transactions to sync" do
-        let(:sync) { create(:conversion_sync, add_on: conversion, transactions: []) }
+        context "when there is nothing to sync" do
+          it "redirects to the add_ons index" do
+            allow(Conversions::Initializer).to receive(:call) { nil }
 
-        it "redirects to the add_ons index" do
-          allow(Conversions::Finalizer).to receive(:call)
+            sign_in(user)
+            get edit_conversion_sync_path(conversion, sync)
 
-          sign_in(user)
-          get edit_conversion_sync_path(conversion, sync)
-
-          expect(Conversions::Finalizer).to have_received(:call).with(sync)
-          expect(response).to redirect_to(add_ons_path)
+            expect(response).to redirect_to(add_ons_path)
+            expect(flash[:alert]).to eq("No transactions found to convert")
+          end
         end
       end
     end
@@ -293,14 +311,28 @@ RSpec.describe "Conversions", type: :request do
         let(:sync) { create(:conversion_sync, add_on: conversion, transactions: []) }
         let(:new_sync) { create(:conversion_sync, add_on: conversion) }
 
-        it "creates a new sync and redirects to the edit page" do
+        before do
           allow(Conversions::Initializer).to receive(:call) { new_sync }
-
           sign_in(user)
+        end
+
+        it "creates a new sync and redirects to the edit page" do
           put conversion_sync_path(conversion, sync)
 
           expect(Conversions::Initializer).to have_received(:call).with(conversion)
           expect(response).to redirect_to edit_conversion_sync_path(conversion, new_sync)
+          expect(flash[:alert]).to eq("Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again.")
+        end
+
+        context "when the new sync is nil" do
+          let(:new_sync) { nil }
+
+          it "redirects to add_ons index" do
+            put conversion_sync_path(conversion, sync)
+
+            expect(response).to redirect_to(add_ons_path)
+            expect(flash[:alert]).to eq("Oops! Your transactions are no longer available to convert.")
+          end
         end
       end
     end

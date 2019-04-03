@@ -4,7 +4,7 @@ class AddOn < ApplicationRecord
 
   scope :active, -> { where(deleted_at: nil) }
   scope :automatic, -> { where(sync_automatically: true) }
-  scope :syncable, -> { active.automatic.joins(:syncs).merge(Sync.confirmed).uniq }
+  scope :syncable, -> { active.automatic }
 
   validates :ynab_budget_id, presence: true
   validates :ynab_account_id, presence: true

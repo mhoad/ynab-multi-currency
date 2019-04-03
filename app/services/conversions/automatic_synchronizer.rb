@@ -6,7 +6,7 @@ module Conversions
 
         if Oauth.new(user).refresh_token_if_needed!
           sync = Conversions::Initializer.call(conversion)
-          Conversions::Finalizer.call(sync)
+          Conversions::Finalizer.call(sync) if sync
         else
           Rollbar.warn("Couldn't authenticate user #{user.id}")
         end

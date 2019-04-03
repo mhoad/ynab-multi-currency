@@ -6,7 +6,12 @@ class SyncsController < ApplicationController
 
   def create
     sync = service::Initializer.call(add_on)
-    redirect_to(url_for([add_on, sync, only_path: true, action: :edit]))
+
+    if sync
+      redirect_to(url_for([add_on, sync, only_path: true, action: :edit]))
+    else
+      redirect_to add_ons_path, alert: "No transactions found to convert"
+    end
   end
 
   def edit
@@ -14,11 +19,7 @@ class SyncsController < ApplicationController
 
     if @sync.confirmed?
       @sync = service::Initializer.call(add_on)
-    end
-
-    if @sync.transactions.blank?
-      service::Finalizer.call(@sync)
-      redirect_to add_ons_path, alert: "No transactions found to convert"
+      redirect_to(add_ons_path, alert: "No transactions found to convert") if @sync.nil?
     end
   end
 
@@ -27,7 +28,12 @@ class SyncsController < ApplicationController
 
     if sync.transactions.blank?
       sync = service::Initializer.call(add_on)
-      redirect_to url_for([add_on, sync, only_path: true, action: :edit]), alert: "Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again."
+
+      if sync
+        redirect_to url_for([add_on, sync, only_path: true, action: :edit]), alert: "Oops! You took too long to confirm your transactions so we had to cancel the operation. Here's a fresh batch for you to review again."
+      else
+        redirect_to add_ons_path, alert: "Oops! Your transactions are no longer available to convert."
+      end
     else
       count = service::Finalizer.call(sync)
       redirect_to add_ons_path, notice: "Succesfully synced #{pluralize(count, "transaction")}"

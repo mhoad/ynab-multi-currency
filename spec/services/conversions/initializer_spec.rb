@@ -16,6 +16,7 @@ describe Conversions::Initializer do
 
     let(:adapter) { instance_double("YnabAdapter") }
     let(:transaction) { build(:transaction, amount: -100000, memo: memo) }
+    let(:transactions) { [transaction] }
 
     let(:memo) { "Food" }
     let(:memo_position) { "left" }
@@ -28,7 +29,7 @@ describe Conversions::Initializer do
 
     before do
       allow(YnabAdapter).to receive(:new).with(conversion.user) { adapter }
-      allow(adapter).to receive(:transactions) { [transaction] }
+      allow(adapter).to receive(:transactions) { transactions }
     end
 
     it "gets the account transactions since the start date" do
@@ -102,7 +103,7 @@ describe Conversions::Initializer do
       let(:memo) { "FX rate" }
 
       it "skips the conversion" do
-        expect(subject.transactions).to eq([])
+        expect(subject).to eq(nil)
       end
     end
 
@@ -110,7 +111,7 @@ describe Conversions::Initializer do
       let(:memo) { "CX rate" }
 
       it "skips the conversion" do
-        expect(subject.transactions).to eq([])
+        expect(subject).to eq(nil)
       end
     end
 
@@ -118,7 +119,7 @@ describe Conversions::Initializer do
       let(:memo) { "skip" }
 
       it "skips the conversion" do
-        expect(subject.transactions).to eq([])
+        expect(subject).to eq(nil)
       end
     end
 
@@ -126,7 +127,7 @@ describe Conversions::Initializer do
       let(:transaction) { build(:transaction, :with_subtransactions, amount: -100000, memo: memo) }
 
       it "skips the conversion" do
-        expect(subject.transactions).to eq([])
+        expect(subject).to eq(nil)
       end
     end
 
@@ -135,6 +136,14 @@ describe Conversions::Initializer do
 
       it "converts transactions using the custom fx rate" do
         expect(subject.transactions.first.amount).to eq(-80000)
+      end
+    end
+
+    context "when there are no new transactions" do
+      let(:transactions) { [] }
+
+      it "returns nil" do
+        expect(subject).to eq(nil)
       end
     end
   end

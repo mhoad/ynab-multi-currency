@@ -20,7 +20,9 @@ module Conversions
     end
 
     def call
-      @conversion.syncs.create!(transactions: convert_transactions)
+      transactions = convert_transactions
+      return if transactions.blank?
+      @conversion.syncs.create!(transactions: transactions)
     end
 
     private
