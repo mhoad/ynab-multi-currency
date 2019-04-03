@@ -10,7 +10,7 @@ module Conversions
       end
 
       count = sync.transactions.count
-      sync.update!(confirmed: true, transactions: nil)
+      sync.update!(confirmed: true, transactions: nil, transactions_count: count)
       count
     end
   end

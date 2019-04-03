@@ -42,5 +42,11 @@ describe Conversions::Finalizer do
     it "returns the transaction count" do
       expect(subject).to eq(1)
     end
+
+    it "sets the transactions count" do
+      subject
+
+      expect(sync.transactions_count).to eq(1)
+    end
   end
 end
