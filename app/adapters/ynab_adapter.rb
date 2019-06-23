@@ -46,7 +46,7 @@ class YnabAdapter
     end
 
     if args[:memo]
-      args[:memo] = args[:memo]&.slice(0...50)
+      args[:memo] = args[:memo]&.slice(0...200)
     end
 
     if args[:payee_name]

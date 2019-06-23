@@ -5,9 +5,11 @@ http_interactions:
     uri: https://api.youneedabudget.com/v1/budgets/da64e638-63f0-41fc-97a2-cc7f38c8b034/transactions
     body:
       encoding: UTF-8
-      string: '{"transaction":{"account_id":"eccab6f8-2d96-47b2-a19c-4c996a46ae65","date":"2018-09-15","amount":-10000,"memo":"A
-        very long memo that will be limited to 50 charac","payee_name":"A very long
-        payee name that will be limited to 50 "}}'
+      string: '{"transaction":{"account_id":"eccab6f8-2d96-47b2-a19c-4c996a46ae65","date":"2018-09-15","amount":-10000,"memo":"Lorem
+        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+        tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        At vero eos et accusam et justo duo dolores ","payee_name":"A very long payee
+        name that will be limited to 50 "}}'
     headers:
       User-Agent:
       - api_client/ruby/1.6.0
@@ -27,7 +29,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Thu, 20 Dec 2018 20:09:32 GMT
+      - Sun, 23 Jun 2019 12:26:31 GMT
       Connection:
       - keep-alive
       Content-Type:
@@ -37,25 +39,27 @@ http_interactions:
       Vary:
       - Accept-Encoding, Origin
       Etag:
-      - W/"648ab195e75a00ebf0af458a1536bf4d"
+      - W/"87a6cee2046a5e1b3df6fb3ec40bcd21"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 688ed956-31ad-43ee-a05a-2075350d9194
+      - 1ea2b7b8-bdc4-473a-a604-db1dc2d96034
       X-Runtime:
-      - '0.189924'
+      - '0.327937'
       Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
+      - max-age=31536000; includeSubDomains
       Transfer-Encoding:
       - chunked
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"data":{"transaction_ids":["18d795a1-c7c7-4214-9a0b-17d8b912e414"],"transaction":{"id":"18d795a1-c7c7-4214-9a0b-17d8b912e414","date":"2018-09-15","amount":-10000,"memo":"A
-        very long memo that will be limited to 50 charac","cleared":"uncleared","approved":false,"flag_color":null,"account_id":"eccab6f8-2d96-47b2-a19c-4c996a46ae65","account_name":"Uploading
+      string: '{"data":{"transaction_ids":["643b88ce-6162-4bdf-9004-f793caf7f8e1"],"transaction":{"id":"643b88ce-6162-4bdf-9004-f793caf7f8e1","date":"2018-09-15","amount":-10000,"memo":"Lorem
+        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+        tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        At vero eos et accusam et justo duo dolores ","cleared":"uncleared","approved":false,"flag_color":null,"account_id":"eccab6f8-2d96-47b2-a19c-4c996a46ae65","account_name":"Uploading
         Account","payee_id":"5607f3ab-4fe1-4774-b318-2fc6145fab43","payee_name":"A
-        very long payee name that will be limited to 50 ","category_id":null,"category_name":null,"transfer_account_id":null,"transfer_transaction_id":null,"import_id":null,"deleted":false,"subtransactions":[]}}}'
+        very long payee name that will be limited to 50 ","category_id":null,"category_name":null,"transfer_account_id":null,"transfer_transaction_id":null,"matched_transaction_id":null,"import_id":null,"deleted":false,"subtransactions":[]}}}'
     http_version: 
-  recorded_at: Thu, 20 Dec 2018 20:09:39 GMT
+  recorded_at: Sun, 23 Jun 2019 12:27:01 GMT
 recorded_with: VCR 4.0.0

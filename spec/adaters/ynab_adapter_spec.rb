@@ -7,7 +7,7 @@ TRANSACTION_ID = "1ca525cb-4462-4687-adab-37796f3fd629"
 TRANSACTION_WITH_SUB_ID = "ba338518-ff23-4e1b-98ca-dffb1253d3d5"
 
 describe YnabAdapter do
-  subject { described_class.new(double(:user, ynab_access_token: Rails.application.credentials.ynab_api_key)) }
+  subject { described_class.new(double(:user, ynab_access_token: Rails.application.credentials.ynab_api_token)) }
 
   describe "#budgets" do
     it "returns the budgets" do
@@ -143,7 +143,7 @@ describe YnabAdapter do
           account_id: ACCOUNT_FOR_UPLOAD_ID,
           date: Date.new(2018, 9, 15),
           amount: -10000,
-          memo: "A very long memo that will be limited to 50 characters",
+          memo: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
           payee_name: "A very long payee name that will be limited to 50 characters"
         }
 
@@ -155,7 +155,7 @@ describe YnabAdapter do
         expect(transaction.id).to be_present
         expect(transaction.date).to eq(Date.parse("15 Sep 2018"))
         expect(transaction.amount).to eq(-10000)
-        expect(transaction.memo.length).to eq(50)
+        expect(transaction.memo.length).to eq(200)
         expect(transaction.cleared).to eq("uncleared")
         expect(transaction.approved).to eq(false)
         expect(transaction.account_id).to eq(ACCOUNT_FOR_UPLOAD_ID)
